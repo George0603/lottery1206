@@ -1,5 +1,9 @@
 package com.lottery;
 
+/**
+ * 双色球中奖纪录
+ * @author gexl
+ */
 public enum HistoryRecord{
 	
 	day_2016142(12,"1,10,17,21,23,30"),
