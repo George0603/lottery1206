@@ -1,5 +1,10 @@
 package com.lottery;
 
+/**
+ * 建议选择结果
+ * @author gexl
+ *
+ */
 public class ChoiceResult {
 	
 	private int blueNum ;
