@@ -31,6 +31,25 @@ public class ChoiceNum {
 	}
 	
 	/**
+	 * 红球奖分布图
+	 */
+	public static void redBallDistributionMap(){
+		List<NumLastAppear> redNumLastList = getRedNumDetail();
+		HistoryRecord2 lastRecord = HistoryRecord2.values()[0];
+		String[] numListStr = lastRecord.getRedNum().split(",");
+		String result = "" ;
+		for(String numstr :numListStr){
+			int num = Integer.parseInt(numstr.trim());
+			for(int i=0;i<redNumLastList.size();i++){
+				if(num == redNumLastList.get(i).getNum()){
+					result += num+ "【排名"+(i+1)+",次数"+redNumLastList.get(i).getNotAppearTimes()+"】  " ;
+				}
+			}
+		}
+		System.out.println("本次中奖及分布情况:"+ result);
+	}
+	
+	/**
 	 * 获取蓝球号码获奖情况
 	 */
 	public static List<NumLastAppear> getBlueNumDetail(){

@@ -4,11 +4,11 @@ package com.lottery;
  * 双色球中奖纪录
  * @author gexl
  */
-public enum HistoryRecord{
+public enum HistoryRecord2{
 	
 //	day_2016144(5,"4,10,12,27,32,33"),
 //	day_2016143(13,"6,9,23,24,25,33"),
-//	day_2016142(12,"1,10,17,21,23,30"),
+	day_2016142(12,"1,10,17,21,23,30"),
 	day_2016141(15,"4,13,15,17,21,24"),	
 	day_2016140(10,"1,2,5,17,26,32"),
 	day_2016139(3,"1,6,19,26,28,30"),
@@ -63,7 +63,7 @@ public enum HistoryRecord{
 	private int blueNum ;
 	private String redNum ;
 	
-	private HistoryRecord(int blueNum , String redNum){
+	private HistoryRecord2(int blueNum , String redNum){
 		this.blueNum = blueNum ;
 		this.redNum = redNum;
 	}
