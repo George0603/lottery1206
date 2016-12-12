@@ -10,6 +10,10 @@ public class NumLastAppear implements Comparable<NumLastAppear>{
 	 * 已经多少次没有出现了
 	 */
 	private int notAppearTimes ;
+	/**
+	 * 没出现次数的排名（没出现次数越多，排名越靠前）
+	 */
+	private int ranking ;
 	
 	public NumLastAppear() {
 	}
@@ -40,5 +44,14 @@ public class NumLastAppear implements Comparable<NumLastAppear>{
 		int notAppearTimes = arg0.getNotAppearTimes();
 		return notAppearTimes - this.notAppearTimes;
 	}
+
+	public int getRanking() {
+		return ranking;
+	}
+
+	public void setRanking(int ranking) {
+		this.ranking = ranking;
+	}
+	
 	
 }

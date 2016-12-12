@@ -16,44 +16,47 @@ public class ChoiceNum {
 	/**
 	 * 获取选择结果
 	 */
-	public static ChoiceResult choiceNum(){
+	public static ChoiceResult choiceNum(HistoryRecord[] recordList){
 		ChoiceResult result = new ChoiceResult();
-		List<NumLastAppear> blueNumLastList = getBlueNumDetail();
-		List<NumLastAppear> redNumLastList = getRedNumDetail();
+		List<NumLastAppear> blueNumLastList = getBlueNumDetail(recordList);
+		List<NumLastAppear> redNumLastList = getRedNumDetail(recordList);
 		result.setBlueNum(blueNumLastList.get(0).getNum());
-		String redNumStr = "" ;
+		List<Integer> temp = new ArrayList<Integer>();
 		for(int i=0;i<6;i++){
-			redNumStr += redNumLastList.get(i).getNum()+" ";
+			temp.add(redNumLastList.get(i).getNum());
 		}
-		result.setRedNumList(redNumStr);
-		System.out.println(result.toPrintString());
+		result.setRedNumList(temp);
 		return result ;
 	}
 	
 	/**
-	 * 红球奖分布图
+	 * 红球奖分布图(获取某期所有红球的未出现次数排名分布情况)
 	 */
-	public static void redBallDistributionMap(){
-		List<NumLastAppear> redNumLastList = getRedNumDetail();
-		HistoryRecord2 lastRecord = HistoryRecord2.values()[0];
-		String[] numListStr = lastRecord.getRedNum().split(",");
-		String result = "" ;
-		for(String numstr :numListStr){
-			int num = Integer.parseInt(numstr.trim());
-			for(int i=0;i<redNumLastList.size();i++){
-				if(num == redNumLastList.get(i).getNum()){
-					result += num+ "【排名"+(i+1)+",次数"+redNumLastList.get(i).getNotAppearTimes()+"】  " ;
-				}
-			}
+	public static void redBallDistributionMap(HistoryRecord[] hrs){
+		
+		List<HistoryRecord> historyList = new ArrayList<HistoryRecord>();
+		for(HistoryRecord hr :hrs){
+			historyList.add(hr);
 		}
-		System.out.println("本次中奖及分布情况:"+ result);
+		//复制为最新记录数据
+		List<HistoryRecord> newHrList =  new ArrayList<HistoryRecord>();
+		newHrList.addAll(historyList);
+		//获取最新一期数据中的红球数据
+		String redNumStr = historyList.get(0).getRedNum();
+		//减去最近一期数据，成为历史数据
+		historyList.remove(0);
+		//使用上期数据，算出上期红球分布结果
+		List<NumLastAppear> redNumLastList = getRedNumDetail(listToArray(historyList));
+		
+////		ChoiceResult preResult = choiceNum();
+//		System.out.println(preResult.toPrintString());
+		
 	}
 	
 	/**
 	 * 获取蓝球号码获奖情况
 	 */
-	public static List<NumLastAppear> getBlueNumDetail(){
-		HistoryRecord[] recordList = HistoryRecord.values();
+	public static List<NumLastAppear> getBlueNumDetail(HistoryRecord[] recordList){
 		//算出蓝球
 		List<NumLastAppear> blueNumLastList = new ArrayList<NumLastAppear>();
 		for(int i=1 ;i<17;i++){
@@ -70,9 +73,9 @@ public class ChoiceNum {
 			blueNumLastList.add(appear);
 		}
 		Collections.sort(blueNumLastList);
-		for(NumLastAppear appear : blueNumLastList){
-			System.out.println("Num:"+ appear.getNum()+"; 没出现的次数："+appear.getNotAppearTimes());
-		}
+//		for(NumLastAppear appear : blueNumLastList){
+//			System.out.println("Num:"+ appear.getNum()+"; 没出现的次数："+appear.getNotAppearTimes());
+//		}
 		System.out.println("************************************************************************************************************");
 		return blueNumLastList ;
 	}
@@ -80,8 +83,7 @@ public class ChoiceNum {
 	/**
 	 * 获取红球号码获奖情况
 	 */
-	public static List<NumLastAppear> getRedNumDetail(){
-		HistoryRecord[] recordList = HistoryRecord.values();
+	public static List<NumLastAppear> getRedNumDetail(HistoryRecord[] recordList){
 		//算出红球
 		List<NumLastAppear> redNumLastList = new ArrayList<NumLastAppear>();
 		for(int i=1 ;i<34;i++){
@@ -105,5 +107,12 @@ public class ChoiceNum {
 		return redNumLastList ;
 	}
 	
+	public static HistoryRecord[] listToArray(List<HistoryRecord> hList){
+		HistoryRecord[] temp = new HistoryRecord[hList.size()];
+		for(int i=0;i<hList.size();i++){
+			temp[i] = hList.get(i);
+		}
+		return temp ;
+	}
 
 }
