@@ -1,5 +1,6 @@
 package com.lottery;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class ChoiceResult {
 	
 	private int blueNum ;
 	
-	private List<Integer> redNumList ;
+	private List<Integer> redNumList = new ArrayList<Integer>();
 	
 	public ChoiceResult(int blueNum,List<Integer> redNumList) {
 		this.blueNum = blueNum ;

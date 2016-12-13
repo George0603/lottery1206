@@ -17,10 +17,11 @@ public class NumLastAppear implements Comparable<NumLastAppear>{
 	
 	public NumLastAppear() {
 	}
-
-	public NumLastAppear(int num ,int notAppearTimes) {
+	
+	public NumLastAppear(int num ,int notAppearTimes,int ranking) {
 		this.num = num ;
 		this.notAppearTimes = notAppearTimes ;
+		this.ranking = ranking;
 	}
 
 	public int getNum() {
