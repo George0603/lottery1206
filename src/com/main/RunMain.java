@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.lottery.Algorithm;
 import com.lottery.ChoiceNum;
-import com.lottery.ChoiceResult;
 import com.lottery.HistoryRecord;
 import com.lottery.NumLastAppear;
 
@@ -19,19 +18,20 @@ public class RunMain {
 		List<NumLastAppear> blueNumLastList = ChoiceNum.getBlueNumDetail(hs);
 		List<NumLastAppear> redNumLastList = ChoiceNum.getRedNumDetail(hs);
 		//篮球
-//		printBlueAndRedList("蓝球", blueNumLastList);
+		printBlueAndRedList("蓝球", blueNumLastList);
 		//红球
-		printBlueAndRedList("红球", redNumLastList);
-		
+//		printBlueAndRedList("红球", redNumLastList);
 		/**
 		 * 打印最新一期红球中奖号码的排名分布情况（根据未出现的次数排名）
 		 */
 		List<NumLastAppear> rankList = ChoiceNum.redBallDistributionMap(hs);
-		printRandingList(rankList);
+//		printRandingList(rankList);
+		
+		ChoiceNum.blueBallDistributionMap(hs);
 		/**
 		 * 打印购买号码预测结果
 		 */
-//		Algorithm.algorithm1213(hs);
+		Algorithm.algorithm1213(hs);
 	}
 	
 	/**
@@ -42,8 +42,8 @@ public class RunMain {
 		Collections.sort(rankList);
 		StringBuffer printResult = new StringBuffer("排名：");
 		for(NumLastAppear rank : rankList){
-			printResult.append(rank.getRanking()+"【号码："+rank.getNum()+",次数："+rank.getNotAppearTimes()+"】 ");
-//			printResult.append(rank.getRanking()+" ");
+//			printResult.append(rank.getRanking()+"【号码："+rank.getNum()+",次数："+rank.getNotAppearTimes()+"】 ");
+			printResult.append(rank.getRanking()+" ");
 		}
 		System.out.println(printResult);
 	}
