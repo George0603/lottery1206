@@ -18,20 +18,20 @@ public class RunMain {
 		List<NumLastAppear> blueNumLastList = ChoiceNum.getBlueNumDetail(hs);
 		List<NumLastAppear> redNumLastList = ChoiceNum.getRedNumDetail(hs);
 		//篮球
-		printBlueAndRedList("蓝球", blueNumLastList);
+//		printBlueAndRedList("蓝球", blueNumLastList);
 		//红球
 //		printBlueAndRedList("红球", redNumLastList);
 		/**
 		 * 打印最新一期红球中奖号码的排名分布情况（根据未出现的次数排名）
 		 */
 		List<NumLastAppear> rankList = ChoiceNum.redBallDistributionMap(hs);
-//		printRandingList(rankList);
-		
-		ChoiceNum.blueBallDistributionMap(hs);
+		printRandingList(rankList);
+		/**中奖蓝球号码在上一期中的排名和未出现次数**/
+//		ChoiceNum.blueBallDistributionMap(hs);
 		/**
 		 * 打印购买号码预测结果
 		 */
-		Algorithm.algorithm1213(hs);
+//		Algorithm.algorithm1213(hs);
 	}
 	
 	/**

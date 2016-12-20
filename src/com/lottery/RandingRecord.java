@@ -10,6 +10,8 @@ public class RandingRecord {
 	
 	{
 	/**红球中奖号码排名情况**/
+		randingRecord_red.put("2016148", "2 5 7 10 18 21");
+		randingRecord_red.put("2016147", "1 4 6 8 19 22");
 		randingRecord_red.put("2016146", "8 14 15 20 29 30");
 		randingRecord_red.put("2016145", "2 9 11 12 19 30");
 		randingRecord_red.put("2016144", "5 9 19 20 24 33");
@@ -29,6 +31,8 @@ public class RandingRecord {
 		randingRecord_red.put("2016130", "3 7 8 25 27 31");
 	/**篮球中奖号码排名情况**/
 		
+		randingRecord_blue.put("2016148", "8;10");
+		randingRecord_blue.put("2016147", "12;4");
 		randingRecord_blue.put("2016146", "11;5");
 		randingRecord_blue.put("2016145", "1;45");
 		randingRecord_blue.put("2016144", "3;34");
