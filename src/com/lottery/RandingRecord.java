@@ -9,7 +9,11 @@ public class RandingRecord {
 	public static Map<String, String> randingRecord_blue = new HashMap<String, String>();
 	
 	{
-	/**红球中奖号码排名情况**/
+	/**红球中奖号码排名情况**/ 
+		randingRecord_red.put("2017005", "2 8 11 16 20 33");
+		randingRecord_red.put("2017004", "3 7 9 10 23 32");
+		randingRecord_red.put("2017003", "2 8 11 18 28 33");
+		randingRecord_red.put("2017002", "4 5 13 14 26 32");
 		randingRecord_red.put("2017001", "7 15 22 26 29 32");
 		randingRecord_red.put("2016153", "2 3 4 9 25 30");
 		randingRecord_red.put("2016152", "1 22 25 30 31 32");
@@ -36,6 +40,10 @@ public class RandingRecord {
 		randingRecord_red.put("2016131", "3 4 14 15 19 32");
 		randingRecord_red.put("2016130", "3 7 8 25 27 31");
 	/**篮球中奖号码排名情况**/
+		randingRecord_blue.put("2017005", "11;7");
+		randingRecord_blue.put("2017004", "12;4");
+		randingRecord_blue.put("2017003", "5;28");
+		randingRecord_blue.put("2017002", "8;15");
 		randingRecord_blue.put("2017001", "9;12");
 		randingRecord_blue.put("2016153", "11;7");
 		randingRecord_blue.put("2016152", "16;0");
