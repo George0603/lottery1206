@@ -1,26 +1,26 @@
 package com.lottery;
 
-public class NumLastAppear implements Comparable<NumLastAppear>{
-	
+public class NumLastAppear implements Comparable<NumLastAppear> {
+
 	/**
 	 * 号码
 	 */
-	private int num ;
+	private int num;
 	/**
 	 * 已经多少次没有出现了
 	 */
-	private int notAppearTimes ;
+	private int notAppearTimes;
 	/**
 	 * 没出现次数的排名（没出现次数越多，排名越靠前）
 	 */
-	private int ranking ;
-	
+	private int ranking;
+
 	public NumLastAppear() {
 	}
-	
-	public NumLastAppear(int num ,int notAppearTimes,int ranking) {
-		this.num = num ;
-		this.notAppearTimes = notAppearTimes ;
+
+	public NumLastAppear(int num, int notAppearTimes, int ranking) {
+		this.num = num;
+		this.notAppearTimes = notAppearTimes;
 		this.ranking = ranking;
 	}
 
@@ -42,8 +42,8 @@ public class NumLastAppear implements Comparable<NumLastAppear>{
 
 	@Override
 	public int compareTo(NumLastAppear arg0) {
-		int notAppearTimes = arg0.getNotAppearTimes();
-		return notAppearTimes - this.notAppearTimes;
+		int nat = arg0.getNotAppearTimes();
+		return nat - this.notAppearTimes;
 	}
 
 	public int getRanking() {
@@ -53,6 +53,5 @@ public class NumLastAppear implements Comparable<NumLastAppear>{
 	public void setRanking(int ranking) {
 		this.ranking = ranking;
 	}
-	
-	
+
 }
