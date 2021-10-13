@@ -29,7 +29,7 @@ public class Algorithm {
 		// 获取蓝球统计结果
 		List<NumLastAppear> blueNumLastList = ChoiceNum.getBlueNumDetail(recordList);
 		// 选中蓝球中出现次数最多的那个号码
-		choiceResult.setBlueNum(blueNumLastList.get(0).getNum());
+		choiceResult.setBlueNum(getBlueNum(blueNumLastList));
 		// 获取红球统计结果
 		List<NumLastAppear> redNumLastList = ChoiceNum.getRedNumDetail(recordList);
 		// 记录已经选中序号
@@ -58,6 +58,14 @@ public class Algorithm {
 		}
 		System.out.println(choiceResult.toPrintString());
 		return choiceResult;
+	}
+
+	/**
+	 * 获取蓝球算法
+	 */
+	public static int getBlueNum(List<NumLastAppear> blueNumLastList) {
+		// 直接获取最久未出现的号码
+		return blueNumLastList.get(0).getNum();
 	}
 
 	/**
