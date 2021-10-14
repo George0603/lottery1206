@@ -1,5 +1,8 @@
 package com.lottery;
 
+import lombok.Data;
+
+@Data
 public class NumLastAppear implements Comparable<NumLastAppear> {
 
 	/**
@@ -24,34 +27,25 @@ public class NumLastAppear implements Comparable<NumLastAppear> {
 		this.ranking = ranking;
 	}
 
-	public int getNum() {
-		return num;
-	}
-
-	public void setNum(int num) {
-		this.num = num;
-	}
-
-	public int getNotAppearTimes() {
-		return notAppearTimes;
-	}
-
-	public void setNotAppearTimes(int notAppearTimes) {
-		this.notAppearTimes = notAppearTimes;
-	}
-
 	@Override
 	public int compareTo(NumLastAppear arg0) {
 		int nat = arg0.getNotAppearTimes();
 		return nat - this.notAppearTimes;
 	}
 
-	public int getRanking() {
-		return ranking;
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (this.getClass() != obj.getClass())
+			return false;
+		NumLastAppear arg0 = (NumLastAppear) obj;
+		return num == (arg0.getNum());
 	}
 
-	public void setRanking(int ranking) {
-		this.ranking = ranking;
+	@Override
+	public int hashCode() {
+		return super.hashCode();
 	}
 
 }

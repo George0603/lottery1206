@@ -6,13 +6,21 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 预测结果算法
+ * 号码选择参考
  * 
- * @author gexl
- *
  */
 public class ChoiceNum {
 
+	private ChoiceNum() {
+		throw new IllegalStateException("ChoiceNum class");
+	}
+
+	/**
+	 * 蓝球分布图
+	 * 
+	 * @param hrs
+	 * @return
+	 */
 	public static NumLastAppear blueBallDistributionMap(HistoryRecord[] hrs) {
 		NumLastAppear result = new NumLastAppear();
 		// 最新一期中奖的蓝球号码
@@ -34,7 +42,6 @@ public class ChoiceNum {
 				break;
 			}
 		}
-		System.out.println("中奖蓝球：" + blueNum + ",排名：" + result.getRanking() + ",未出现次数：" + result.getNotAppearTimes());
 		return result;
 	}
 
