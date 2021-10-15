@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import com.lottery.Algorithm;
 import com.lottery.ChoiceMultiResult;
 import com.lottery.ChoiceNum;
+import com.lottery.ChoiceResult;
 import com.lottery.HistoryRecord;
 import com.lottery.NumLastAppear;
 
@@ -16,7 +17,19 @@ public class RunMain {
 	private static Logger logger = Logger.getLogger(RunMain.class);
 
 	public static void main(String[] args) {
-		printResult();
+		printMulResult();
+	}
+
+	/**
+	 * 打印复投预测结果
+	 */
+	public static void printMulResult() {
+		/**
+		 * 打印购买号码预测结果
+		 */
+		HistoryRecord[] hs = HistoryRecord.values();
+		ChoiceMultiResult result = Algorithm.algorithm1014(hs);
+		logger.info(result.toPrintString());
 	}
 
 	/**
@@ -27,7 +40,7 @@ public class RunMain {
 		 * 打印购买号码预测结果
 		 */
 		HistoryRecord[] hs = HistoryRecord.values();
-		ChoiceMultiResult result = Algorithm.algorithm1014(hs);
+		ChoiceResult result = Algorithm.algorithm1213(hs);
 		logger.info(result.toPrintString());
 	}
 
@@ -70,7 +83,7 @@ public class RunMain {
 	 */
 	public static void printRandingList(List<NumLastAppear> rankList) {
 		Collections.sort(rankList);
-		StringBuilder printResult = new StringBuilder("中奖红球号码排名：");
+		StringBuilder printResult = new StringBuilder("红球中奖号码排名：");
 		for (NumLastAppear rank : rankList) {
 			printResult.append(rank.getRanking() + " ");
 		}
