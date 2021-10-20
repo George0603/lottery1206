@@ -44,6 +44,8 @@ public class RunMain {
 		logger.info(result.toPrintString());
 	}
 
+	// 3,9,10,11,28,29
+
 	/**
 	 * 打印红球、蓝球各个号码未出现的次数及排名
 	 */

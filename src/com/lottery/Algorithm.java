@@ -19,7 +19,7 @@ public class Algorithm {
 
 	/**
 	 * 红球： 从红球排名结果中选取结果： 1-3名选1个； 4-9名选1个； 10-29名选2个； 30-33名选1个； 1-33里选剩的随机选1个；<br/>
-	 * 蓝球：从排名前4中选两个
+	 * 蓝球：从排名2-5中选两个
 	 * 
 	 * @param recordList
 	 *            中奖历史记录
@@ -27,7 +27,7 @@ public class Algorithm {
 	public static ChoiceMultiResult algorithm1014(HistoryRecord[] recordList) {
 		ChoiceMultiResult choiceResult = new ChoiceMultiResult();
 		choiceResult.setBlueNum(getTwoBlueNum(recordList));
-		choiceResult.setRedNumList(getRedNumList(recordList));
+		choiceResult.setRedNumList(get7RedNumList(recordList));
 		return choiceResult;
 	}
 
@@ -48,7 +48,36 @@ public class Algorithm {
 	}
 
 	/**
-	 * 红球： 从红球排名结果中选取结果： 1-3名选1个； 4-9名选1个； 10-29名选2个； 30-33名选1个； 1-33里选剩的随机选1个；
+	 * 红球： 从红球排名结果中选取结果： 1-4名选1个； 5-10名选1个； 11-27名选2个； 27-33名选1个； 6-33里选剩的随机选1个；
+	 */
+	public static List<Integer> get7RedNumList(HistoryRecord[] recordList) {
+		List<Integer> redNumList = new ArrayList<>();
+		// 获取红球统计结果
+		List<NumLastAppear> redNumLastList = ChoiceNum.getRedNumDetail(recordList);
+		// 记录已经选中序号
+		Set<Integer> redIndex = new HashSet<>();
+		// 从1-4名选1个
+		int c1 = new Random().nextInt(4);
+		redIndex.add(c1);
+		// 从5-10名选1个
+		int c2 = new Random().nextInt(6) + 4;
+		redIndex.add(c2);
+		// 从27-33名选1个
+		int c3 = new Random().nextInt(7) + 26;
+		redIndex.add(c3);
+		// 从11-27名选2个
+		redIndex = randomSet(10, 27, 5, redIndex);
+		// 从6-33里随机2个；
+		redIndex = randomSet(5, 33, 7, redIndex);
+		// 6个序号得到后，获取对应的号码
+		for (Integer i : redIndex) {
+			redNumList.add(redNumLastList.get(i).getNum());
+		}
+		return redNumList;
+	}
+
+	/**
+	 * 红球： 从红球排名结果中选取结果： 1-4名选1个； 5-10名选1个； 11-27名选2个； 27-33名选1个； 6-33里选剩的随机选1个；
 	 */
 	public static List<Integer> getRedNumList(HistoryRecord[] recordList) {
 		List<Integer> redNumList = new ArrayList<>();
@@ -56,22 +85,22 @@ public class Algorithm {
 		List<NumLastAppear> redNumLastList = ChoiceNum.getRedNumDetail(recordList);
 		// 记录已经选中序号
 		List<Integer> redIndex = new ArrayList<>();
-		// 从1-3名选1个
-		int c1 = new Random().nextInt(3);
+		// 从1-4名选1个
+		int c1 = new Random().nextInt(4);
 		redIndex.add(c1);
-		// 从4-9名选1个
-		int c2 = new Random().nextInt(6) + 3;
+		// 从5-10名选1个
+		int c2 = new Random().nextInt(6) + 4;
 		redIndex.add(c2);
-		// 从30-33名选1个
-		int c3 = new Random().nextInt(4) + 29;
+		// 从27-33名选1个
+		int c3 = new Random().nextInt(7) + 26;
 		redIndex.add(c3);
-		// 从10-29名选2个
+		// 从11-27名选2个
 		Set<Integer> t = new HashSet<>();
-		t = randomSet(9, 29, 2, t);
+		t = randomSet(10, 27, 2, t);
 		for (Integer temp : t) {
 			redIndex.add(temp);
 		}
-		// 从1-33里随机1个；
+		// 从6-33里随机1个；
 		int c6 = randomFromOutSideList(redIndex);
 		redIndex.add(c6);
 		// 6个序号得到后，获取对应的号码
@@ -90,7 +119,7 @@ public class Algorithm {
 		List<Integer> blueIndex = new ArrayList<>();
 		// 从10-29名选2个
 		Set<Integer> t = new HashSet<>();
-		t = randomSet(0, 4, 2, t);
+		t = randomSet(1, 5, 2, t);
 		for (Integer temp : t) {
 			blueIndex.add(blueNumLastList.get(temp).getNum());
 		}
@@ -164,7 +193,7 @@ public class Algorithm {
 
 	public static Integer randomFromOutSideList(List<Integer> list) {
 		// 从0到32里随机选择一个数
-		Integer result = new Random().nextInt(33);
+		Integer result = new Random().nextInt(28) + 5;
 		// 如果List里面已经有这个数了，则随机选
 		if (list.contains(result)) {
 			result = randomFromOutSideList(list);
