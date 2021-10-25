@@ -17,7 +17,21 @@ public class RunMain {
 	private static Logger logger = Logger.getLogger(RunMain.class);
 
 	public static void main(String[] args) {
-		printMulResult();
+		printDoubleMulResult();
+	}
+
+	/**
+	 * 打印复投预测结果
+	 */
+	public static void printDoubleMulResult() {
+		/**
+		 * 打印购买号码预测结果
+		 */
+		HistoryRecord[] hs = HistoryRecord.values();
+		ChoiceMultiResult desc = Algorithm.algorithmDesc(hs);
+		ChoiceMultiResult asc = Algorithm.algorithmAsc(hs);
+		logger.info(desc.toPrintString());
+		logger.info(asc.toPrintString());
 	}
 
 	/**

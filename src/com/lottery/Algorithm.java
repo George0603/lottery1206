@@ -19,6 +19,34 @@ public class Algorithm {
 
 	/**
 	 * 红球： 从红球排名结果中选取结果： 1-3名选1个； 4-9名选1个； 10-29名选2个； 30-33名选1个； 1-33里选剩的随机选1个；<br/>
+	 * 蓝球：从排名13-16中选两个
+	 * 
+	 * @param recordList
+	 *            中奖历史记录
+	 */
+	public static ChoiceMultiResult algorithmDesc(HistoryRecord[] recordList) {
+		ChoiceMultiResult choiceResult = new ChoiceMultiResult();
+		choiceResult.setBlueNum(getTwoBlueNum(recordList, 10, 13, 2));
+		choiceResult.setRedNumList(getRedNumList(recordList));
+		return choiceResult;
+	}
+
+	/**
+	 * 红球： 从红球排名结果中选取结果： 1-3名选1个； 4-9名选1个； 10-29名选2个； 30-33名选1个； 1-33里选剩的随机选1个；<br/>
+	 * 蓝球：从排名1-5中选两个
+	 * 
+	 * @param recordList
+	 *            中奖历史记录
+	 */
+	public static ChoiceMultiResult algorithmAsc(HistoryRecord[] recordList) {
+		ChoiceMultiResult choiceResult = new ChoiceMultiResult();
+		choiceResult.setBlueNum(getTwoBlueNum(recordList, 0, 5, 3));
+		choiceResult.setRedNumList(getRedNumList(recordList));
+		return choiceResult;
+	}
+
+	/**
+	 * 红球： 从红球排名结果中选取结果： 1-3名选1个； 4-9名选1个； 10-29名选2个； 30-33名选1个； 1-33里选剩的随机选1个；<br/>
 	 * 蓝球：从排名2-5中选两个
 	 * 
 	 * @param recordList
@@ -26,7 +54,7 @@ public class Algorithm {
 	 */
 	public static ChoiceMultiResult algorithm1014(HistoryRecord[] recordList) {
 		ChoiceMultiResult choiceResult = new ChoiceMultiResult();
-		choiceResult.setBlueNum(getTwoBlueNum(recordList));
+		choiceResult.setBlueNum(getTwoBlueNum(recordList, 1, 5, 2));
 		choiceResult.setRedNumList(get7RedNumList(recordList));
 		return choiceResult;
 	}
@@ -84,7 +112,7 @@ public class Algorithm {
 		// 获取红球统计结果
 		List<NumLastAppear> redNumLastList = ChoiceNum.getRedNumDetail(recordList);
 		// 记录已经选中序号
-		List<Integer> redIndex = new ArrayList<>();
+		Set<Integer> redIndex = new HashSet<>();
 		// 从1-4名选1个
 		int c1 = new Random().nextInt(4);
 		redIndex.add(c1);
@@ -95,14 +123,9 @@ public class Algorithm {
 		int c3 = new Random().nextInt(7) + 26;
 		redIndex.add(c3);
 		// 从11-27名选2个
-		Set<Integer> t = new HashSet<>();
-		t = randomSet(10, 27, 2, t);
-		for (Integer temp : t) {
-			redIndex.add(temp);
-		}
+		redIndex = randomSet(10, 27, 5, redIndex);
 		// 从6-33里随机1个；
-		int c6 = randomFromOutSideList(redIndex);
-		redIndex.add(c6);
+		redIndex = randomSet(5, 33, 6, redIndex);
 		// 6个序号得到后，获取对应的号码
 		for (Integer i : redIndex) {
 			redNumList.add(redNumLastList.get(i).getNum());
@@ -113,13 +136,14 @@ public class Algorithm {
 	/**
 	 * 获取蓝球算法：从排名前4中选两个
 	 */
-	public static List<Integer> getTwoBlueNum(HistoryRecord[] recordList) {
+	public static List<Integer> getTwoBlueNum(HistoryRecord[] recordList, int start, int end, int size) {
 		List<NumLastAppear> blueNumLastList = ChoiceNum.getBlueNumDetail(recordList);
 		// 记录已经选中序号
 		List<Integer> blueIndex = new ArrayList<>();
 		// 从10-29名选2个
 		Set<Integer> t = new HashSet<>();
-		t = randomSet(1, 5, 2, t);
+		// t = randomSet(1, 5, 2, t)
+		t = randomSet(start, end, size, t);
 		for (Integer temp : t) {
 			blueIndex.add(blueNumLastList.get(temp).getNum());
 		}
@@ -191,7 +215,7 @@ public class Algorithm {
 		}
 	}
 
-	public static Integer randomFromOutSideList(List<Integer> list) {
+	public static Integer randomFromOutSideList(Set<Integer> list) {
 		// 从0到32里随机选择一个数
 		Integer result = new Random().nextInt(28) + 5;
 		// 如果List里面已经有这个数了，则随机选
