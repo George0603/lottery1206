@@ -26,7 +26,7 @@ public class Algorithm {
 	 */
 	public static ChoiceMultiResult algorithmDesc(HistoryRecord[] recordList) {
 		ChoiceMultiResult choiceResult = new ChoiceMultiResult();
-		choiceResult.setBlueNum(getTwoBlueNum(recordList, 10, 13, 2));
+		choiceResult.setBlueNum(getTwoBlueNum(recordList, 10, 15, 2));
 		choiceResult.setRedNumList(getRedNumList(recordList));
 		return choiceResult;
 	}
@@ -101,6 +101,11 @@ public class Algorithm {
 		for (Integer i : redIndex) {
 			redNumList.add(redNumLastList.get(i).getNum());
 		}
+		Collections.sort(redNumList);
+		Integer maxNum = redNumList.get(redNumList.size() - 1);
+		// 如果最大的号码小于27，则重新获取
+		if (maxNum < 27)
+			return getRedNumList(recordList);
 		return redNumList;
 	}
 
@@ -130,6 +135,12 @@ public class Algorithm {
 		for (Integer i : redIndex) {
 			redNumList.add(redNumLastList.get(i).getNum());
 		}
+		Collections.sort(redNumList);
+		Integer minNum = redNumList.get(0);
+		Integer maxNum = redNumList.get(redNumList.size() - 1);
+		// 如果最小的号码大于10或最大的号码小于27，则重新获取
+		if (minNum > 10 || maxNum < 27)
+			return getRedNumList(recordList);
 		return redNumList;
 	}
 

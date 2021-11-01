@@ -3,6 +3,7 @@ package com.main;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.lottery.Algorithm;
@@ -99,11 +100,13 @@ public class RunMain {
 	 */
 	public static void printRandingList(List<NumLastAppear> rankList) {
 		Collections.sort(rankList);
-		StringBuilder printResult = new StringBuilder("红球中奖号码排名：");
+		StringBuilder printResult = new StringBuilder("");
 		for (NumLastAppear rank : rankList) {
-			printResult.append(rank.getRanking() + " ");
+			if (StringUtils.isNotBlank(printResult.toString()))
+				printResult.append(",");
+			printResult.append(rank.getRanking());
 		}
-		logger.info(printResult);
+		logger.info(printResult.insert(0, "红球中奖号码排名："));
 	}
 
 	/**

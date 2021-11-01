@@ -33,7 +33,7 @@ public class ChoiceMultiResult {
 	public String toPrintString() {
 		Collections.sort(blueNum);
 		Collections.sort(redNumList);
-		return "建议您买的双色球号码为：蓝球【" + listToString(blueNum) + "】，红球【" + listToString(redNumList) + "】 .";
+		return "建议您买的双色球号码为：蓝球【" + listToString(blueNum) + "】，红球【" + listToString(redNumList) + "】.";
 	}
 
 	public static String listToString(List<Integer> stringList) {
