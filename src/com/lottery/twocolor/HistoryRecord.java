@@ -1,4 +1,4 @@
-package com.lottery;
+package com.lottery.twocolor;
 
 /**
  * 双色球中奖纪录
@@ -6,6 +6,8 @@ package com.lottery;
  * @author gexl
  */
 public enum HistoryRecord {
+	DAY_20211104(1, "19,20,23,27,28,31"),
+	DAY_20211102(9, "14,19,20,23,24,31"),
 	DAY_20211031(2, "1,3,18,22,29,32"),
 	DAY_20211028(5, "6,14,15,19,29,31"),
 	DAY_20211026(7, "4,5,12,15,18,28"),

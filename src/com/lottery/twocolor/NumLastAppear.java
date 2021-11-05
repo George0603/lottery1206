@@ -1,4 +1,4 @@
-package com.lottery;
+package com.lottery.twocolor;
 
 import lombok.Data;
 

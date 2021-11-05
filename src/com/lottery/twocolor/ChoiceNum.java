@@ -1,4 +1,4 @@
-package com.lottery;
+package com.lottery.twocolor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,6 +78,7 @@ public class ChoiceNum {
 				}
 			}
 		}
+		Collections.sort(rankingList);
 		return rankingList;
 	}
 
@@ -125,7 +126,13 @@ public class ChoiceNum {
 			redNumLastList.add(appear);
 		}
 		Collections.sort(redNumLastList);
-		return redNumLastList;
+		List<NumLastAppear> newList = new ArrayList<>();
+		for (int i = 0; i < redNumLastList.size(); i++) {
+			NumLastAppear n = redNumLastList.get(i);
+			n.setRanking(i + 1);
+			newList.add(n);
+		}
+		return newList;
 	}
 
 	/**
