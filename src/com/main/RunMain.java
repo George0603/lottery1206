@@ -15,6 +15,7 @@ public class RunMain {
 
 		wayBefore1121();
 		// TwoColorBallUtils.printreNotPresentTimes();
+		// TwoColorBallUtils.printRankingDetail();
 
 		printInfo();
 	}

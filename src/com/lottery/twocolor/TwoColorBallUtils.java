@@ -85,14 +85,15 @@ public class TwoColorBallUtils {
 	 */
 	public static void printRankingDetail() {
 		HistoryRecord[] hs = HistoryRecord.values();
+		/** 中奖蓝球号码在上一期中的排名和未出现次数 **/
+		NumLastAppear blueAppear = ChoiceNum.blueBallDistributionMap(hs);
+		// logger.info("蓝球中奖号码:" + blueAppear.getNum() + ",未出现次数:" + blueAppear.getNotAppearTimes() + ",排名:" + blueAppear.getRanking())
+		RESULTINFOLIST.add("蓝球中奖号码:" + blueAppear.getNum() + ",未出现次数:" + blueAppear.getNotAppearTimes() + ",排名:" + blueAppear.getRanking());
 		/**
 		 * 打印最新一期红球中奖号码的排名分布情况（根据未出现的次数排名）
 		 */
 		List<NumLastAppear> rankList = ChoiceNum.redBallDistributionMap(hs);
 		printRandingList(rankList);
-		/** 中奖蓝球号码在上一期中的排名和未出现次数 **/
-		NumLastAppear blueAppear = ChoiceNum.blueBallDistributionMap(hs);
-		logger.info("蓝球中奖号码:" + blueAppear.getNum() + ",未出现次数:" + blueAppear.getNotAppearTimes() + ",排名:" + blueAppear.getRanking());
 		// 红球总和
 		int sum = 0;
 		int sumRank = 0;
@@ -100,11 +101,13 @@ public class TwoColorBallUtils {
 			sum += n.getNum();
 			sumRank += n.getRanking();
 		}
-		logger.info("红球号码总和：" + sum);
+		// logger.info("红球号码总和：" + sum)
 		// 红球号码排名总和
-		logger.info("红球号码排名总和：" + sumRank);
+		// logger.info("红球号码排名总和：" + sumRank)
 		// 和与差
-		logger.info("两数之和与差：" + (sum + sumRank) + "," + Math.abs(sum - sumRank));
+		// logger.info("两数之和与差：" + (sum + sumRank) + "," + Math.abs(sum - sumRank))
+		RESULTINFOLIST.add("红球号码总和：" + sum + ",排名总和:" + sumRank);
+		RESULTINFOLIST.add("两数之和与差：" + (sum + sumRank) + "," + Math.abs(sum - sumRank));
 
 	}
 

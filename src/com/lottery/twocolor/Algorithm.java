@@ -200,7 +200,7 @@ public class Algorithm {
 	 */
 	public static ChoiceMultiResult algorithmDesc(HistoryRecord[] recordList) {
 		ChoiceMultiResult choiceResult = new ChoiceMultiResult();
-		choiceResult.setBlueNum(getTwoBlueNum(recordList, 9, 14, 2));
+		choiceResult.setBlueNum(getTwoBlueNum(recordList, 10, 14, 2));
 		choiceResult.setRedNumList(getRedNumList(recordList));
 		return choiceResult;
 	}
