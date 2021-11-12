@@ -40,7 +40,7 @@ public class Algorithm {
 	 */
 	public static ChoiceDanTuoResult danTuoWay(HistoryRecord[] recordList, int tuoNum) {
 		ChoiceDanTuoResult choiceResult = new ChoiceDanTuoResult();
-		choiceResult.setBlueNum(getTwoBlueNum(recordList, 0, 5, 3));
+		choiceResult.setBlueNum(getTwoBlueNum(recordList, 1, 5, 3));
 		choiceResult = getDanTuoRedList(recordList, choiceResult, tuoNum);
 		return choiceResult;
 	}
@@ -80,12 +80,23 @@ public class Algorithm {
 		Collections.sort(redNumList);
 		Collections.sort(rankList);
 		// 数字符合大小限制，切各自组合的和也符合
-		if (!checkMinMax(redNumList) || !checkSumList(danNumList, tuoNumList, redNumLastList, redNumList))
+		if (!checkMinMax(redNumList) || checkLastRedNum(redNumList, recordList) || !checkSumList(danNumList, tuoNumList, redNumLastList, redNumList))
 			return getDanTuoRedList(recordList, choiceResult, tuoNum);
 		// 校验是否满足情况
 		choiceResult.setDanNumList(danNumList);
 		choiceResult.setTuoNumList(tuoNumList);
 		return choiceResult;
+	}
+
+	// 校验如果最后一个红球号码，和最新一期的红球号码相同，则重新选择
+	public static boolean checkLastRedNum(List<Integer> redNumList, HistoryRecord[] recordList) {
+		// 获取本次选择号码的最后一个号码
+		Integer newestNum = redNumList.get(redNumList.size() - 1);
+		// 历史记录最新的
+		String[] redNumStr = recordList[0].getRedNum().split(",");
+		Integer lastesNum = Integer.valueOf(redNumStr[redNumStr.length - 1]);
+		// 判断是否相等
+		return newestNum.equals(lastesNum);
 	}
 
 	public static boolean checkSumList(List<Integer> danNumList, List<Integer> tuoNumList, List<NumLastAppear> redNumLastList, List<Integer> redNumList) {
@@ -200,7 +211,7 @@ public class Algorithm {
 	 */
 	public static ChoiceMultiResult algorithmDesc(HistoryRecord[] recordList) {
 		ChoiceMultiResult choiceResult = new ChoiceMultiResult();
-		choiceResult.setBlueNum(getTwoBlueNum(recordList, 10, 14, 2));
+		choiceResult.setBlueNum(getTwoBlueNum(recordList, 11, 15, 2));
 		choiceResult.setRedNumList(getRedNumList(recordList));
 		return choiceResult;
 	}
@@ -311,7 +322,7 @@ public class Algorithm {
 		}
 		Collections.sort(redNumList);
 		boolean checkResult = checkOtherCondition(redNumList, redIndex, redNumLastList);
-		if (!checkResult)
+		if (checkLastRedNum(redNumList, recordList) || !checkResult)
 			return getRedNumList(recordList);
 		return redNumList;
 	}
