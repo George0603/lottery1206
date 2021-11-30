@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.lottery.utils.NumLastAppear;
+
 public class TwoColorBallUtils {
 
 	public static final List<String> RESULTINFOLIST = new ArrayList<>();

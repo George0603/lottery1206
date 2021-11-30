@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
+import com.lottery.utils.NumLastAppear;
+import com.lottery.utils.Utils;
 import com.lottery.utils.WeightUtils;
 
 /**
@@ -58,15 +59,15 @@ public class Algorithm {
 		// 记录已经选中序号
 		Set<Integer> redIndex = getFixedThreeNum();
 		// 从4-33里随机1个；
-		redIndex = randomSet(3, 33, 4, redIndex);
-		// 6个序号得到后，获取对应的号码
+		redIndex = Utils.randomSet(3, 33, 4, redIndex);
+		// 个序号得到后，获取对应的号码
 		for (Integer i : redIndex) {
 			danNumList.add(redNumLastList.get(i).getNum());
 		}
 		// 拖码集合
 		List<Integer> tuoNumList = new ArrayList<>();
 		// 11-27名选TUO_NUM个；
-		redIndex = randomSet(10, 27, 4 + tuoNum, redIndex);
+		redIndex = Utils.randomSet(10, 27, 4 + tuoNum, redIndex);
 		List<Integer> rankList = new ArrayList<>();
 		for (Integer i : redIndex) {
 			redNumList.add(redNumLastList.get(i).getNum());
@@ -100,106 +101,13 @@ public class Algorithm {
 	}
 
 	public static boolean checkSumList(List<Integer> danNumList, List<Integer> tuoNumList, List<NumLastAppear> redNumLastList, List<Integer> redNumList) {
-		List<Integer> sumList = getSumList(danNumList, tuoNumList, redNumLastList);
+		List<Integer> sumList = Utils.getSumList(danNumList, tuoNumList, redNumLastList, 1);
 		for (Integer sum : sumList) {
 			if (sum < MIN_SUM)
 				return false;
 		}
 		NORMALINFOLIST.add("胆拖所有组合双和为【" + StringUtils.join(sumList, ",") + "】，红色号码为【" + StringUtils.join(redNumList, ",") + "】。");
 		return true;
-	}
-
-	/**
-	 * 胆拖号所有组合的和
-	 */
-	public static List<Integer> getSumList(List<Integer> danNumList, List<Integer> tuoNumList, List<NumLastAppear> redNumLastList) {
-		int danNumSize = danNumList.size();
-		int tuoNumSize = tuoNumList.size();
-		if (danNumSize > 5 || tuoNumSize < 2 || danNumSize + tuoNumSize < 7)
-			return Collections.emptyList();
-		// 所需拖码个数
-		int aidNum = 6 - danNumSize;
-		// 所有拖码可组成的集合
-		List<List<Integer>> allTuoNumList = getAllCombination(tuoNumList, aidNum);
-		// 所有红球号码组合
-		List<List<Integer>> allNumList = getAllNumList(danNumList, allTuoNumList);
-		List<Integer> sumList = new ArrayList<>();
-		for (List<Integer> redNumList : allNumList) {
-			int sum = 0;
-			for (Integer redNum : redNumList) {
-				Integer rank = getRankingByNum(redNumLastList, redNum);
-				sum += (redNum + rank);
-			}
-			sumList.add(sum);
-		}
-		Collections.sort(sumList);
-		// logger.info("胆拖所有组合如下：【" + StringUtils.join(allNumList, ",") + "】,对应双和为【" + StringUtils.join(sumList, ",") + "】。")
-		return sumList;
-	}
-
-	public static Integer getRankingByNum(List<NumLastAppear> redNumLastList, Integer redNum) {
-		for (NumLastAppear n : redNumLastList) {
-			if (redNum.equals(n.getNum()))
-				return n.getRanking();
-		}
-		return null;
-	}
-
-	public static List<List<Integer>> getAllNumList(List<Integer> danNumList, List<List<Integer>> allTuoNumList) {
-		List<List<Integer>> allNumList = new ArrayList<>();
-		for (List<Integer> t : allTuoNumList) {
-			t.addAll(danNumList);
-			Collections.sort(t);
-			allNumList.add(t);
-		}
-		return allNumList;
-	}
-
-	/**
-	 * 获取某个数组的指定个数的所有组合
-	 * 
-	 * @param tuoNumList
-	 *            数组集合
-	 * @param size
-	 *            组合的数目
-	 * @return
-	 */
-	public static List<List<Integer>> getAllCombination(List<Integer> numList, int size) {
-		if (CollectionUtils.isEmpty(numList) || size > numList.size())
-			return Collections.emptyList();
-		List<List<Integer>> resultList = new ArrayList<>();
-		if (numList.size() == size) {
-			resultList.add(numList);
-		} else if (size == 1) {
-			List<Integer> result = null;
-			for (Integer i : numList) {
-				result = new ArrayList<>();
-				result.add(i);
-				resultList.add(result);
-			}
-		} else {
-			for (int i = 0; i < numList.size(); i++) {
-				Integer first = numList.get(i);
-				List<Integer> partList = getPartList(numList, i + 1, numList.size());
-				List<List<Integer>> tempList = getAllCombination(partList, size - 1);
-				if (CollectionUtils.isNotEmpty(tempList)) {
-					for (List<Integer> t : tempList) {
-						t.add(first);
-						Collections.sort(t);
-						resultList.add(t);
-					}
-				}
-			}
-		}
-		return resultList;
-	}
-
-	public static List<Integer> getPartList(List<Integer> numList, int start, int end) {
-		List<Integer> resultList = new ArrayList<>();
-		for (int i = start; i < end; i++) {
-			resultList.add(numList.get(i));
-		}
-		return resultList;
 	}
 
 	/**
@@ -270,9 +178,9 @@ public class Algorithm {
 		// 记录已经选中序号
 		Set<Integer> redIndex = getFixedThreeNum();
 		// 从11-27名选2个
-		redIndex = randomSet(10, 27, 5, redIndex);
+		redIndex = Utils.randomSet(10, 27, 5, redIndex);
 		// 从6-33里随机2个；
-		redIndex = randomSet(5, 33, 7, redIndex);
+		redIndex = Utils.randomSet(5, 33, 7, redIndex);
 		// 6个序号得到后，获取对应的号码
 		for (Integer i : redIndex) {
 			redNumList.add(redNumLastList.get(i).getNum());
@@ -313,16 +221,16 @@ public class Algorithm {
 		// 记录已经选中序号
 		Set<Integer> redIndex = getFixedThreeNum();
 		// 从11-27名选2个
-		redIndex = randomSet(10, 27, 5, redIndex);
+		redIndex = Utils.randomSet(10, 27, 5, redIndex);
 		// 从4-33里随机1个；
-		redIndex = randomSet(3, 33, 6, redIndex);
+		redIndex = Utils.randomSet(3, 33, 6, redIndex);
 		// 6个序号得到后，获取对应的号码
 		for (Integer i : redIndex) {
 			redNumList.add(redNumLastList.get(i).getNum());
 		}
 		Collections.sort(redNumList);
 		boolean checkResult = checkOtherCondition(redNumList, redIndex, redNumLastList);
-		if (checkLastRedNum(redNumList, recordList) || !checkResult)
+		if (!checkLastRedNum(redNumList, recordList) || !checkResult)
 			return getRedNumList(recordList);
 		return redNumList;
 	}
@@ -367,7 +275,7 @@ public class Algorithm {
 		List<Integer> blueIndex = new ArrayList<>();
 		// 从10-29名选2个
 		Set<Integer> t = new HashSet<>();
-		t = randomSet(start, end, size, t);
+		t = Utils.randomSet(start, end, size, t);
 		for (Integer temp : t) {
 			blueIndex.add(blueNumLastList.get(temp).getNum());
 		}
@@ -398,36 +306,6 @@ public class Algorithm {
 		}
 		result.setRedNumList(temp);
 		return result;
-	}
-
-	/**
-	 * 随机指定范围内N个不重复的数 利用HashSet的特征，只能存放不同的值
-	 * 
-	 * @param min
-	 *            指定范围最小值
-	 * @param max
-	 *            指定范围最大值
-	 * @param n
-	 *            随机数个数
-	 * @param HashSet<Integer>
-	 *            set 随机数结果集
-	 */
-	public static Set<Integer> randomSet(int min, int max, int n, Set<Integer> set) {
-		if (n > (max - min + 1) || max < min)
-			return Collections.emptySet();
-		for (int i = 0; i < n; i++) {
-			int setSize = set.size();
-			if (setSize < n) {
-				// 调用Math.random()方法
-				int num = (int) (Math.random() * (max - min)) + min;
-				set.add(num);// 将不同的数存入HashSet中
-			}
-		}
-		int setSize = set.size();
-		// 如果存入的数小于指定生成的个数，则调用递归再生成剩余个数的随机数，如此循环，直到达到指定大小
-		if (setSize < n)
-			set = randomSet(min, max, n, set);// 递归
-		return set;
 	}
 
 	public static Integer randomFromOutSideList(Set<Integer> list) {
