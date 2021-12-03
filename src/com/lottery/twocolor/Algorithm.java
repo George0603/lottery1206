@@ -41,7 +41,7 @@ public class Algorithm {
 	 */
 	public static ChoiceDanTuoResult danTuoWay(HistoryRecord[] recordList, int tuoNum) {
 		ChoiceDanTuoResult choiceResult = new ChoiceDanTuoResult();
-		choiceResult.setBlueNum(getTwoBlueNum(recordList, 1, 5, 3));
+		choiceResult.setBlueNum(getTwoBlueNum(recordList, 1, 5, 4));
 		choiceResult = getDanTuoRedList(recordList, choiceResult, tuoNum);
 		return choiceResult;
 	}
@@ -119,7 +119,7 @@ public class Algorithm {
 	 */
 	public static ChoiceMultiResult algorithmDesc(HistoryRecord[] recordList) {
 		ChoiceMultiResult choiceResult = new ChoiceMultiResult();
-		choiceResult.setBlueNum(getTwoBlueNum(recordList, 11, 15, 2));
+		choiceResult.setBlueNum(getTwoBlueNum(recordList, 11, 15, 3));
 		choiceResult.setRedNumList(getRedNumList(recordList));
 		return choiceResult;
 	}
@@ -230,7 +230,7 @@ public class Algorithm {
 		}
 		Collections.sort(redNumList);
 		boolean checkResult = checkOtherCondition(redNumList, redIndex, redNumLastList);
-		if (!checkLastRedNum(redNumList, recordList) || !checkResult)
+		if (checkLastRedNum(redNumList, recordList) || !checkResult)
 			return getRedNumList(recordList);
 		return redNumList;
 	}

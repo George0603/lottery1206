@@ -13,7 +13,7 @@ public class RunMain {
 	private static Logger logger = Logger.getLogger(RunMain.class);
 
 	public static void main(String[] args) {
-		sevenColor();
+		twoColor();
 		printInfo();
 	}
 
@@ -43,7 +43,7 @@ public class RunMain {
 	// 11.21之前购买
 	public static void wayBefore1121() {
 		// 胆拖方式,3个拖码,蓝球有1-5选3个
-		TwoColorBallUtils.printDanTuoResult(4);
+		TwoColorBallUtils.printDanTuoResult(3);
 		// 普通选择，蓝球16-11选2个
 		TwoColorBallUtils.printMulResult();
 	}

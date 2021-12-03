@@ -17,7 +17,7 @@ public class Algorithm {
 
 	public static final int TOTAL_NUM = 30;
 
-	private static final int MIN_SUM = 185;
+	private static final int MIN_SUM = 188;
 	// 红球允许的最小值
 	private static final int MIN_NUM = 10;
 	// 红球最大值的最小值
@@ -53,8 +53,8 @@ public class Algorithm {
 		redIndex = Utils.randomSet(0, 8, 1, redIndex);
 		// 9-25,3个
 		redIndex = Utils.randomSet(8, 25, 4, redIndex);
-		// 26-30,1个
-		redIndex = Utils.randomSet(25, 30, 5, redIndex);
+		// 23-30,1个
+		redIndex = Utils.randomSet(22, 30, 5, redIndex);
 		// 5个序号得到后，获取对应的号码
 		for (Integer i : redIndex) {
 			danNumList.add(numLastList.get(i).getNum());
