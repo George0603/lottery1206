@@ -70,12 +70,15 @@ public class PrintUtils {
 	 */
 	public static void printRanking() {
 		List<NumLastAppear> lastList = Algorithm.numRankingDistributionMap();
+		Integer allNum = 0;
 		StringBuilder printResult = new StringBuilder("");
 		for (NumLastAppear rank : lastList) {
 			if (StringUtils.isNotBlank(printResult.toString()))
 				printResult.append(",");
 			printResult.append(rank.getRanking());
+			allNum += rank.getNum() + rank.getRanking();
 		}
 		RESULT_INFO_LIST.add(printResult.insert(0, "中奖号码排名：").toString());
+		RESULT_INFO_LIST.add("中奖号码和排名之和：" + allNum);
 	}
 }

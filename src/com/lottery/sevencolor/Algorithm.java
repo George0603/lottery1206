@@ -17,9 +17,9 @@ public class Algorithm {
 
 	public static final int TOTAL_NUM = 30;
 
-	private static final int MIN_SUM = 188;
+	private static final int MIN_SUM = 179;
 	// 红球允许的最小值
-	private static final int MIN_NUM = 10;
+	private static final int MIN_NUM = 8;
 	// 红球最大值的最小值
 	private static final int MAX_NUM = 25;
 

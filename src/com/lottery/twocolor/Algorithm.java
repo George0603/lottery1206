@@ -41,7 +41,7 @@ public class Algorithm {
 	 */
 	public static ChoiceDanTuoResult danTuoWay(HistoryRecord[] recordList, int tuoNum) {
 		ChoiceDanTuoResult choiceResult = new ChoiceDanTuoResult();
-		choiceResult.setBlueNum(getTwoBlueNum(recordList, 1, 5, 4));
+		choiceResult.setBlueNum(getTwoBlueNum(recordList, 0, 5, 4));
 		choiceResult = getDanTuoRedList(recordList, choiceResult, tuoNum);
 		return choiceResult;
 	}
