@@ -34,14 +34,20 @@ public class Algorithm {
 	}
 
 	/**
-	 * 胆拖玩法：4个胆码，3个拖码
-	 * 
-	 * @param recordList
-	 *            中奖历史记录
+	 * @param tuoNum
+	 *            拖码个数
+	 * @param isAsc
+	 *            蓝球是否是正序选择
+	 * @return
 	 */
-	public static ChoiceDanTuoResult danTuoWay(HistoryRecord[] recordList, int tuoNum) {
+	public static ChoiceDanTuoResult danTuoWay(HistoryRecord[] recordList, int tuoNum, boolean isAsc, int buleNum) {
 		ChoiceDanTuoResult choiceResult = new ChoiceDanTuoResult();
-		choiceResult.setBlueNum(getTwoBlueNum(recordList, 0, 5, 4));
+		buleNum = buleNum > 4 ? 4 : buleNum;
+		if (isAsc) {
+			choiceResult.setBlueNum(getTwoBlueNum(recordList, 0, 5, buleNum));
+		} else {
+			choiceResult.setBlueNum(getTwoBlueNum(recordList, 11, 15, buleNum));
+		}
 		choiceResult = getDanTuoRedList(recordList, choiceResult, tuoNum);
 		return choiceResult;
 	}
@@ -58,15 +64,17 @@ public class Algorithm {
 		List<NumLastAppear> redNumLastList = ChoiceNum.getRedNumDetail(recordList);
 		// 记录已经选中序号
 		Set<Integer> redIndex = getFixedThreeNum();
-		// 从4-33里随机1个；
-		redIndex = Utils.randomSet(3, 33, 4, redIndex);
+		// 11-27名选1个；
+		redIndex = Utils.randomSet(10, 27, 4, redIndex);
 		// 个序号得到后，获取对应的号码
 		for (Integer i : redIndex) {
 			danNumList.add(redNumLastList.get(i).getNum());
 		}
 		// 拖码集合
 		List<Integer> tuoNumList = new ArrayList<>();
-		// 11-27名选TUO_NUM个；
+		// 11-27名选TUO_NUM-1个；
+		redIndex = Utils.randomSet(10, 27, 4 + tuoNum - 1, redIndex);
+		// 4-33 随机选择一个
 		redIndex = Utils.randomSet(10, 27, 4 + tuoNum, redIndex);
 		List<Integer> rankList = new ArrayList<>();
 		for (Integer i : redIndex) {

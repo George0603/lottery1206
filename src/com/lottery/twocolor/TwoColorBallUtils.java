@@ -20,9 +20,9 @@ public class TwoColorBallUtils {
 
 	// private static org.slf4j.Logger logRed = LoggerFactory.getLogger(TwoColorBallUtils.class)
 
-	public static void printDanTuoResult(int tuoNum) {
+	public static void printDanTuoResult(int tuoNum, boolean isAsc, int buleNum) {
 		HistoryRecord[] hs = HistoryRecord.values();
-		ChoiceDanTuoResult result = Algorithm.danTuoWay(hs, tuoNum);
+		ChoiceDanTuoResult result = Algorithm.danTuoWay(hs, tuoNum, isAsc, buleNum);
 		// logRed.info()
 		RESULTINFOLIST.add("胆拖玩法，" + result.toPrintString());
 	}
