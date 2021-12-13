@@ -44,7 +44,7 @@ public class Algorithm {
 		ChoiceDanTuoResult choiceResult = new ChoiceDanTuoResult();
 		buleNum = buleNum > 4 ? 4 : buleNum;
 		if (isAsc) {
-			choiceResult.setBlueNum(getTwoBlueNum(recordList, 0, 5, buleNum));
+			choiceResult.setBlueNum(getTwoBlueNum(recordList, 1, 5, buleNum));
 		} else {
 			choiceResult.setBlueNum(getTwoBlueNum(recordList, 11, 15, buleNum));
 		}

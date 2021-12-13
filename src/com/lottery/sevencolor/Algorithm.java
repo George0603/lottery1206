@@ -49,9 +49,11 @@ public class Algorithm {
 		List<NumLastAppear> numLastList = getNumDetail(hs);
 		// 记录已经选中序号
 		Set<Integer> redIndex = new HashSet<>();
-		// 1-8 1个；
-		redIndex = Utils.randomSet(0, 8, 1, redIndex);
-		// 9-25,3个
+		// 1-6 1个；
+		redIndex = Utils.randomSet(0, 6, 1, redIndex);
+		// 7-15 1个；
+		redIndex = Utils.randomSet(6, 15, 2, redIndex);
+		// 9-25,2个
 		redIndex = Utils.randomSet(8, 25, 4, redIndex);
 		// 23-30,1个
 		redIndex = Utils.randomSet(22, 30, 5, redIndex);
