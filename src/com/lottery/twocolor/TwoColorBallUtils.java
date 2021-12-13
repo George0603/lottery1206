@@ -10,7 +10,7 @@ import com.lottery.utils.NumLastAppear;
 
 public class TwoColorBallUtils {
 
-	public static final List<String> RESULTINFOLIST = new ArrayList<>();
+	public static List<String> RESULTINFOLIST = new ArrayList<>();
 
 	private TwoColorBallUtils() {
 		throw new IllegalStateException("TwoColorBallUtils class");
@@ -20,11 +20,12 @@ public class TwoColorBallUtils {
 
 	// private static org.slf4j.Logger logRed = LoggerFactory.getLogger(TwoColorBallUtils.class)
 
-	public static void printDanTuoResult(int tuoNum, boolean isAsc, int buleNum) {
+	public static ChoiceDanTuoResult printDanTuoResult(int tuoNum, boolean isAsc, int buleNum) {
 		HistoryRecord[] hs = HistoryRecord.values();
 		ChoiceDanTuoResult result = Algorithm.danTuoWay(hs, tuoNum, isAsc, buleNum);
 		// logRed.info()
 		RESULTINFOLIST.add("胆拖玩法，" + result.toPrintString());
+		return result;
 	}
 
 	/**
@@ -142,4 +143,35 @@ public class TwoColorBallUtils {
 		RESULTINFOLIST.add(printResult.toString());
 	}
 
+	// 11.21之前购买
+	public static void wayBefore1121() {
+		// 胆拖方式,3个拖码,蓝球有1-5选3个
+		ChoiceDanTuoResult r1 = printDanTuoResult(3, true, 4);
+		// 胆拖方式,3个拖码,蓝球有11-15选3个
+		ChoiceDanTuoResult r2 = printDanTuoResult(3, false, 4);
+		if (isContainsSameNum(r1, r2)) {
+			RESULTINFOLIST = new ArrayList<>();
+			Algorithm.NORMALINFOLIST = new ArrayList<>();
+			wayBefore1121();
+		}
+	}
+
+	public static boolean isContainsSameNum(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
+		List<Integer> rlist1 = getListByResult(r1);
+		List<Integer> rlist2 = getListByResult(r2);
+		for (Integer num : rlist1) {
+			if (rlist2.contains(num))
+				return true;
+		}
+		return false;
+	}
+
+	// 判断结果中是否有相同的数值
+
+	public static List<Integer> getListByResult(ChoiceDanTuoResult r) {
+		List<Integer> danNumList = r.getDanNumList();
+		List<Integer> tuoNumList = r.getTuoNumList();
+		danNumList.addAll(tuoNumList);
+		return danNumList;
+	}
 }

@@ -19,13 +19,13 @@ import com.lottery.utils.WeightUtils;
 
 public class Algorithm {
 
-	public static final List<String> NORMALINFOLIST = new ArrayList<>();
+	public static List<String> NORMALINFOLIST = new ArrayList<>();
 
 	// private static Logger logger = Logger.getLogger(Algorithm.class)
 
 	private static final int MIN_SUM = 180;
 	// 红球允许的最小值
-	private static final int MIN_NUM = 10;
+	private static final int MIN_NUM = 9;
 	// 红球最大值的最小值
 	private static final int MAX_NUM = 27;
 
@@ -74,8 +74,12 @@ public class Algorithm {
 		List<Integer> tuoNumList = new ArrayList<>();
 		// 11-27名选TUO_NUM-1个；
 		redIndex = Utils.randomSet(10, 27, 4 + tuoNum - 1, redIndex);
-		// 4-33 随机选择一个
-		redIndex = Utils.randomSet(10, 27, 4 + tuoNum, redIndex);
+		// 1-10或者24-33选择一个
+		if (new Random().nextBoolean()) {
+			redIndex = Utils.randomSet(0, 10, 4 + tuoNum, redIndex);
+		} else {
+			redIndex = Utils.randomSet(23, 33, 4 + tuoNum, redIndex);
+		}
 		List<Integer> rankList = new ArrayList<>();
 		for (Integer i : redIndex) {
 			redNumList.add(redNumLastList.get(i).getNum());
@@ -230,8 +234,12 @@ public class Algorithm {
 		Set<Integer> redIndex = getFixedThreeNum();
 		// 从11-27名选2个
 		redIndex = Utils.randomSet(10, 27, 5, redIndex);
-		// 从4-33里随机1个；
-		redIndex = Utils.randomSet(3, 33, 6, redIndex);
+		// 1-10或者24-33中选一个
+		if (new Random().nextBoolean()) {
+			redIndex = Utils.randomSet(0, 10, 6, redIndex);
+		} else {
+			redIndex = Utils.randomSet(23, 33, 6, redIndex);
+		}
 		// 6个序号得到后，获取对应的号码
 		for (Integer i : redIndex) {
 			redNumList.add(redNumLastList.get(i).getNum());
@@ -298,22 +306,6 @@ public class Algorithm {
 		List<NumLastAppear> blueNumLastList = ChoiceNum.getBlueNumDetail(recordList);
 		// 直接获取最久未出现的号码
 		return blueNumLastList.get(0).getNum();
-	}
-
-	/**
-	 * 预测基本算法1
-	 */
-	public static ChoiceResult choiceNum(HistoryRecord[] recordList) {
-		ChoiceResult result = new ChoiceResult();
-		List<NumLastAppear> blueNumLastList = ChoiceNum.getBlueNumDetail(recordList);
-		List<NumLastAppear> redNumLastList = ChoiceNum.getRedNumDetail(recordList);
-		result.setBlueNum(blueNumLastList.get(0).getNum());
-		List<Integer> temp = new ArrayList<>();
-		for (int i = 0; i < 6; i++) {
-			temp.add(redNumLastList.get(i).getNum());
-		}
-		result.setRedNumList(temp);
-		return result;
 	}
 
 	public static Integer randomFromOutSideList(Set<Integer> list) {

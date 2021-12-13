@@ -81,4 +81,5 @@ public class PrintUtils {
 		RESULT_INFO_LIST.add(printResult.insert(0, "中奖号码排名：").toString());
 		RESULT_INFO_LIST.add("中奖号码和排名之和：" + allNum);
 	}
+
 }

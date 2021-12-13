@@ -13,7 +13,7 @@ public class RunMain {
 	private static Logger logger = Logger.getLogger(RunMain.class);
 
 	public static void main(String[] args) {
-		sevenColor();
+		twoColor();
 		printInfo();
 	}
 
@@ -21,13 +21,13 @@ public class RunMain {
 		// 打印未出现情况
 		// PrintUtils.printList();
 		// 打印排名情况
-		PrintUtils.printRanking();
+		// PrintUtils.printRanking();
 		// PrintUtils.printResult7();
-		// PrintUtils.pringDantuo();
+		PrintUtils.pringDantuo();
 	}
 
 	public static void twoColor() {
-		// wayBefore1121();
+		wayBefore1121();
 		// TwoColorBallUtils.printreNotPresentTimes();
 		// TwoColorBallUtils.printRankingDetail();
 	}
@@ -43,9 +43,7 @@ public class RunMain {
 	// 11.21之前购买
 	public static void wayBefore1121() {
 		// 胆拖方式,3个拖码,蓝球有1-5选3个
-		TwoColorBallUtils.printDanTuoResult(3, true, 4);
-		// 胆拖方式,3个拖码,蓝球有11-15选3个
-		TwoColorBallUtils.printDanTuoResult(3, false, 4);
+		TwoColorBallUtils.wayBefore1121();
 	}
 
 	public static void printInfo() {
