@@ -17,6 +17,8 @@ public class Algorithm {
 
 	public static final int TOTAL_NUM = 30;
 
+	private static final int MID_SUM = 200;
+
 	private static final int MIN_SUM = 179;
 	// 红球允许的最小值
 	private static final int MIN_NUM = 8;
@@ -97,6 +99,12 @@ public class Algorithm {
 			if (sum < MIN_SUM)
 				return false;
 		}
+		// 必须有一个小于200
+		if (sumList.get(0) > MID_SUM)
+			return false;
+		// 后面都是大于200的
+		if (sumList.get(1) < MID_SUM)
+			return false;
 		PrintUtils.RESULT_INFO_LIST.add("胆拖所有组合双和为【" + StringUtils.join(sumList, ",") + "】，红色号码为【" + StringUtils.join(redNumList, ",") + "】。");
 		return true;
 	}

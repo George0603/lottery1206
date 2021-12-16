@@ -24,6 +24,12 @@ public class Algorithm {
 	// private static Logger logger = Logger.getLogger(Algorithm.class)
 
 	private static final int MIN_SUM = 180;
+
+	private static final int MID_SUM = 200;
+
+	private static final int MAX_SUM = 260;
+
+	private static final int MAY_SUM = 220;
 	// 红球允许的最小值
 	private static final int MIN_NUM = 9;
 	// 红球最大值的最小值
@@ -114,10 +120,24 @@ public class Algorithm {
 
 	public static boolean checkSumList(List<Integer> danNumList, List<Integer> tuoNumList, List<NumLastAppear> redNumLastList, List<Integer> redNumList) {
 		List<Integer> sumList = Utils.getSumList(danNumList, tuoNumList, redNumLastList, 1);
+		boolean isGreater = false;
+		boolean isLower = false;
 		for (Integer sum : sumList) {
 			if (sum < MIN_SUM)
 				return false;
+			if (sum > MAX_SUM)
+				return false;
+			if (sum > MID_SUM)
+				isGreater = true;
+			if (sum < MAY_SUM)
+				isLower = true;
 		}
+		// 最大的和要大于200
+		if (!isGreater)
+			return false;
+		// 最小的和不能大于220
+		if (!isLower)
+			return false;
 		NORMALINFOLIST.add("胆拖所有组合双和为【" + StringUtils.join(sumList, ",") + "】，红色号码为【" + StringUtils.join(redNumList, ",") + "】。");
 		return true;
 	}
@@ -254,6 +274,10 @@ public class Algorithm {
 	public static boolean checkMinMax(List<Integer> redNumList) {
 		Integer minNum = redNumList.get(0);
 		Integer maxNum = redNumList.get(redNumList.size() - 1);
+		Integer mayNum = redNumList.get(redNumList.size() - 2);
+		// 不能有两个大于30的
+		if (maxNum >= 30 && mayNum >= 30)
+			return false;
 		// 如果最小的号码大于10或最大的号码小于27，则重新获取
 		return minNum <= MIN_NUM && maxNum >= MAX_NUM;
 	}
