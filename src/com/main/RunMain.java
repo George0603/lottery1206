@@ -13,7 +13,7 @@ public class RunMain {
 	private static Logger logger = Logger.getLogger(RunMain.class);
 
 	public static void main(String[] args) {
-		sevenColor();
+		twoColor();
 		printInfo();
 	}
 
@@ -27,9 +27,9 @@ public class RunMain {
 	}
 
 	public static void twoColor() {
-		wayBefore1121();
+		// wayBefore1121();
 		// TwoColorBallUtils.printreNotPresentTimes();
-		// TwoColorBallUtils.printRankingDetail();
+		TwoColorBallUtils.printRankingDetail();
 	}
 
 	// 常规购买

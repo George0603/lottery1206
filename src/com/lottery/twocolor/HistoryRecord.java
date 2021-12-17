@@ -6,6 +6,8 @@ package com.lottery.twocolor;
  * @author gexl
  */
 public enum HistoryRecord {
+
+	DAY_20211217(7, "2,5,13,15,23,26"),
 	DAY_20211214(9, "1,9,11,13,20,29"),
 	DAY_20211212(16, "4,7,17,19,20,24"),
 	DAY_20211209(10, "1,14,19,23,26,30"),
