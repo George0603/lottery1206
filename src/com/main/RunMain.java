@@ -21,15 +21,17 @@ public class RunMain {
 		// 打印未出现情况
 		// PrintUtils.printList();
 		// 打印排名情况
-		PrintUtils.printRanking();
+		// PrintUtils.printRanking();
 		// PrintUtils.printResult7();
-		// PrintUtils.pringDantuo();
+		PrintUtils.pringDantuo();
 	}
 
 	public static void twoColor() {
-		// wayBefore1121();
+
+		TwoColorBallUtils.wayBefore1121();
+
 		// TwoColorBallUtils.printreNotPresentTimes();
-		TwoColorBallUtils.printRankingDetail();
+		// TwoColorBallUtils.printRankingDetail();
 	}
 
 	// 常规购买
@@ -38,12 +40,6 @@ public class RunMain {
 		TwoColorBallUtils.printDanTuoResult(3, true, 3);
 		// 普通选择，蓝球16-11选2个
 		TwoColorBallUtils.printMulResult();
-	}
-
-	// 11.21之前购买
-	public static void wayBefore1121() {
-		// 胆拖方式,3个拖码,蓝球有1-5选3个
-		TwoColorBallUtils.wayBefore1121();
 	}
 
 	public static void printInfo() {
