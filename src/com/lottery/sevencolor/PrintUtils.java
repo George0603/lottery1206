@@ -9,15 +9,39 @@ import com.lottery.utils.NumLastAppear;
 
 public class PrintUtils {
 
-	public static final List<String> RESULT_INFO_LIST = new ArrayList<>();
+	public static List<String> RESULT_INFO_LIST = new ArrayList<>();
 
 	private PrintUtils() {
 		throw new IllegalStateException("PrintUtils class");
 	}
 
 	public static void pringDantuo() {
-		ChoiceDanTuoResult reuslt = Algorithm.danTuoWay();
-		RESULT_INFO_LIST.add(reuslt.toPrintString());
+		ChoiceDanTuoResult r1 = Algorithm.danTuoWay7();
+		ChoiceDanTuoResult r2 = Algorithm.danTuoWay7();
+		if (isContainsSameNum(r1, r2)) {
+			RESULT_INFO_LIST = new ArrayList<>();
+			pringDantuo();
+		} else {
+			RESULT_INFO_LIST.add(r1.toPrintString());
+			RESULT_INFO_LIST.add(r2.toPrintString());
+		}
+	}
+
+	public static boolean isContainsSameNum(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
+		List<Integer> rlist1 = getListByResult(r1);
+		List<Integer> rlist2 = getListByResult(r2);
+		for (Integer num : rlist1) {
+			if (rlist2.contains(num))
+				return true;
+		}
+		return false;
+	}
+
+	public static List<Integer> getListByResult(ChoiceDanTuoResult r) {
+		List<Integer> danNumList = new ArrayList<>();
+		danNumList.addAll(r.getDanNumList());
+		danNumList.addAll(r.getTuoNumList());
+		return danNumList;
 	}
 
 	public static void printResult7() {

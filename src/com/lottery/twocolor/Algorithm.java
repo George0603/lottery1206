@@ -29,7 +29,7 @@ public class Algorithm {
 
 	private static final int MAX_SUM = 260;
 
-	private static final int MAY_SUM = 220;
+	private static final int SUM_DIFF = 25;
 	// 红球允许的最小值
 	private static final int MIN_NUM = 9;
 	// 红球最大值的最小值
@@ -99,7 +99,7 @@ public class Algorithm {
 		Collections.sort(redNumList);
 		Collections.sort(rankList);
 		// 数字符合大小限制，切各自组合的和也符合
-		if (!checkMinMax(redNumList) || checkLastRedNum(redNumList, recordList) || !checkSumList(danNumList, tuoNumList, redNumLastList, redNumList))
+		if (!checkSort(redNumList) || !checkMinMax(redNumList) || checkLastRedNum(redNumList, recordList) || !checkSumList(danNumList, tuoNumList, redNumLastList, redNumList))
 			return getDanTuoRedList(recordList, choiceResult, tuoNum);
 		// 校验是否满足情况
 		choiceResult.setDanNumList(danNumList);
@@ -109,35 +109,31 @@ public class Algorithm {
 
 	// 校验如果最后一个红球号码，和最新一期的红球号码相同，则重新选择
 	public static boolean checkLastRedNum(List<Integer> redNumList, HistoryRecord[] recordList) {
-		// 获取本次选择号码的最后一个号码
-		Integer newestNum = redNumList.get(redNumList.size() - 1);
 		// 历史记录最新的
 		String[] redNumStr = recordList[0].getRedNum().split(",");
+		// 获取本次选择号码的最后一个号码
+		Integer newestNum = redNumList.get(redNumList.size() - 1);
 		Integer lastesNum = Integer.valueOf(redNumStr[redNumStr.length - 1]);
+		Integer firstNmu = Integer.valueOf(redNumStr[0]);
 		// 判断是否相等
-		return newestNum.equals(lastesNum);
+		return newestNum.equals(lastesNum) || (redNumList.contains(firstNmu) && redNumList.contains(lastesNum));
 	}
 
 	public static boolean checkSumList(List<Integer> danNumList, List<Integer> tuoNumList, List<NumLastAppear> redNumLastList, List<Integer> redNumList) {
 		List<Integer> sumList = Utils.getSumList(danNumList, tuoNumList, redNumLastList, 1);
-		boolean isGreater = false;
-		boolean isLower = false;
-		for (Integer sum : sumList) {
-			if (sum < MIN_SUM)
-				return false;
-			if (sum > MAX_SUM)
-				return false;
-			if (sum > MID_SUM)
-				isGreater = true;
-			if (sum < MAY_SUM)
-				isLower = true;
-		}
-		// 最大的和要大于200
-		if (!isGreater)
+		// 最小的，要大于MIN_SUM
+		if (sumList.get(0) <= MIN_SUM)
 			return false;
-		// 最小的和不能大于220
-		if (!isLower)
+		// 最大的不能大于MAX_SUM
+		if (sumList.get(sumList.size() - 1) > MAX_SUM)
 			return false;
+		// 要保证存在大于MID_SUM的
+		if (sumList.get(0) >= MID_SUM || sumList.get(1) < MID_SUM)
+			return false;
+		// 最小和最大的和要相差20以上
+		if (sumList.get(sumList.size() - 1) - sumList.get(0) <= SUM_DIFF)
+			return false;
+
 		NORMALINFOLIST.add("胆拖所有组合双和为【" + StringUtils.join(sumList, ",") + "】，红色号码为【" + StringUtils.join(redNumList, ",") + "】。");
 		return true;
 	}
@@ -271,6 +267,19 @@ public class Algorithm {
 		return redNumList;
 	}
 
+	public static boolean checkSort(List<Integer> redNumList) {
+		int sortNum = 0;
+		for (int i = 1; i < redNumList.size(); i++) {
+			int last = redNumList.get(i - 1);
+			int now = redNumList.get(i);
+			if (now - last == 1)
+				sortNum++;
+		}
+		// 是否存在两个连续
+		return sortNum < 2;
+	}
+
+	// 校验最大值和最小值，是否在范围内
 	public static boolean checkMinMax(List<Integer> redNumList) {
 		Integer minNum = redNumList.get(0);
 		Integer maxNum = redNumList.get(redNumList.size() - 1);
@@ -278,7 +287,6 @@ public class Algorithm {
 		// 不能有两个大于30的
 		if (maxNum >= 30 && mayNum >= 30)
 			return false;
-		// 如果最小的号码大于10或最大的号码小于27，则重新获取
 		return minNum <= MIN_NUM && maxNum >= MAX_NUM;
 	}
 

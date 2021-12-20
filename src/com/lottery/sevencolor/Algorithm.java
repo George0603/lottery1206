@@ -41,7 +41,75 @@ public class Algorithm {
 	 * 
 	 * @return
 	 */
-	public static ChoiceDanTuoResult danTuoWay() {
+	public static ChoiceDanTuoResult danTuoWay7() {
+		ChoiceDanTuoResult choiceResult = new ChoiceDanTuoResult();
+		List<Integer> redNumList = new ArrayList<>();
+		// 胆码集合
+		List<Integer> danNumList = new ArrayList<>();
+		HistoryRecord[] hs = HistoryRecord.values();
+		// 获取排名结果
+		List<NumLastAppear> numLastList = getNumDetail(hs);
+		// 记录已经选中序号
+		Set<Integer> redIndex = new HashSet<>();
+		// 1-6 1个；
+		redIndex = Utils.randomSet(0, 6, 1, redIndex);
+		// 7-15 1个；
+		redIndex = Utils.randomSet(6, 15, 2, redIndex);
+		// 9-25,2个
+		redIndex = Utils.randomSet(8, 25, 4, redIndex);
+		// 23-30,1个
+		redIndex = Utils.randomSet(22, 30, 5, redIndex);
+		// 5个序号得到后，获取对应的号码
+		for (Integer i : redIndex) {
+			danNumList.add(numLastList.get(i).getNum());
+		}
+		// 拖码集合
+		List<Integer> tuoNumList = new ArrayList<>();
+		// 1-10 1个；
+		redIndex = Utils.randomSet(0, 10, 6, redIndex);
+		// 11-20,1个；
+		redIndex = Utils.randomSet(10, 20, 7, redIndex);
+		// 21-30,1个
+		redIndex = Utils.randomSet(20, 30, 8, redIndex);
+		List<Integer> rankList = new ArrayList<>();
+		for (Integer i : redIndex) {
+			redNumList.add(numLastList.get(i).getNum());
+			rankList.add(numLastList.get(i).getRanking());
+		}
+		// 新增的为拖码
+		for (Integer n : redNumList) {
+			if (!danNumList.contains(n))
+				tuoNumList.add(n);
+		}
+		Collections.sort(redNumList);
+		Collections.sort(rankList);
+		if (!checkSort(redNumList) || !checkMinMax(redNumList) || checkLastRedNum(redNumList) || !checkSumList(danNumList, tuoNumList, numLastList, redNumList))
+			return danTuoWay7();
+		// 校验是否满足情况
+		choiceResult.setDanNumList(danNumList);
+		choiceResult.setTuoNumList(tuoNumList);
+		return choiceResult;
+	}
+
+	public static boolean checkSort(List<Integer> redNumList) {
+		int sortNum = 0;
+		for (int i = 1; i < redNumList.size(); i++) {
+			int last = redNumList.get(i - 1);
+			int now = redNumList.get(i);
+			if (now - last == 1)
+				sortNum++;
+		}
+		// 是否存在两个连续
+		return sortNum < 2;
+	}
+
+	/**
+	 * 胆码5个：1-8 1个；9-25,3个；26-30,1个 <br>
+	 * 拖码4个：1-5 1个；6-12,1个；13-20,1个；21-30,1个
+	 * 
+	 * @return
+	 */
+	public static ChoiceDanTuoResult danTuoWay8() {
 		ChoiceDanTuoResult choiceResult = new ChoiceDanTuoResult();
 		List<Integer> redNumList = new ArrayList<>();
 		// 胆码集合
@@ -86,7 +154,7 @@ public class Algorithm {
 		Collections.sort(redNumList);
 		Collections.sort(rankList);
 		if (!checkMinMax(redNumList) || checkLastRedNum(redNumList) || !checkSumList(danNumList, tuoNumList, numLastList, redNumList))
-			return danTuoWay();
+			return danTuoWay8();
 		// 校验是否满足情况
 		choiceResult.setDanNumList(danNumList);
 		choiceResult.setTuoNumList(tuoNumList);
@@ -100,10 +168,10 @@ public class Algorithm {
 				return false;
 		}
 		// 必须有一个小于200
-		if (sumList.get(0) > MID_SUM)
+		if (sumList.get(0) >= MID_SUM)
 			return false;
 		// 后面都是大于200的
-		if (sumList.get(1) < MID_SUM)
+		if (sumList.get(1) <= MID_SUM)
 			return false;
 		PrintUtils.RESULT_INFO_LIST.add("胆拖所有组合双和为【" + StringUtils.join(sumList, ",") + "】，红色号码为【" + StringUtils.join(redNumList, ",") + "】。");
 		return true;

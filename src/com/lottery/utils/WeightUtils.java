@@ -15,13 +15,13 @@ public class WeightUtils {
 
 	public static Map<Integer, Integer> weightFactory() {
 		Map<Integer, Integer> weightMap = new HashMap<>();
-		weightMap.put(0, 7);
-		weightMap.put(1, 6);
+		weightMap.put(0, 10);
+		weightMap.put(1, 10);
 		weightMap.put(2, 5);
-		weightMap.put(3, 4);
-		weightMap.put(4, 3);
-		weightMap.put(5, 2);
-		weightMap.put(6, 1);
+		weightMap.put(3, 15);
+		weightMap.put(4, 5);
+		weightMap.put(5, 5);
+		weightMap.put(6, 10);
 		return weightMap;
 	}
 

@@ -169,9 +169,9 @@ public class TwoColorBallUtils {
 	// 判断结果中是否有相同的数值
 
 	public static List<Integer> getListByResult(ChoiceDanTuoResult r) {
-		List<Integer> danNumList = r.getDanNumList();
-		List<Integer> tuoNumList = r.getTuoNumList();
-		danNumList.addAll(tuoNumList);
+		List<Integer> danNumList = new ArrayList<>();
+		danNumList.addAll(r.getDanNumList());
+		danNumList.addAll(r.getTuoNumList());
 		return danNumList;
 	}
 }
