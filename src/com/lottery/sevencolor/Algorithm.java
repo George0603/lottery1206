@@ -25,6 +25,8 @@ public class Algorithm {
 	// 红球最大值的最小值
 	private static final int MAX_NUM = 25;
 
+	private static final List<Integer> EXCEPTLIST = Arrays.asList(3, 25);
+
 	private Algorithm() {
 		throw new IllegalStateException("Algorithm class");
 	}
@@ -83,7 +85,7 @@ public class Algorithm {
 		}
 		Collections.sort(redNumList);
 		Collections.sort(rankList);
-		if (!checkSort(redNumList) || !checkMinMax(redNumList) || checkLastRedNum(redNumList) || !checkSumList(danNumList, tuoNumList, numLastList, redNumList))
+		if (checkConstains(redNumList) || !checkSort(redNumList) || !checkMinMax(redNumList) || checkLastRedNum(redNumList) || !checkSumList(danNumList, tuoNumList, numLastList, redNumList))
 			return danTuoWay7();
 		// 校验是否满足情况
 		choiceResult.setDanNumList(danNumList);
@@ -91,16 +93,27 @@ public class Algorithm {
 		return choiceResult;
 	}
 
+	private static boolean checkConstains(List<Integer> redNumList) {
+		for (Integer num : redNumList) {
+			if (EXCEPTLIST.contains(num))
+				return true;
+		}
+		return false;
+	}
+
 	public static boolean checkSort(List<Integer> redNumList) {
 		int sortNum = 0;
+		int intervalNum = 0;
 		for (int i = 1; i < redNumList.size(); i++) {
 			int last = redNumList.get(i - 1);
 			int now = redNumList.get(i);
 			if (now - last == 1)
 				sortNum++;
+			else if (now - last == 2)
+				intervalNum++;
 		}
 		// 是否存在两个连续
-		return sortNum < 2;
+		return sortNum < 2 && intervalNum < 4;
 	}
 
 	/**

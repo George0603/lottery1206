@@ -1,6 +1,7 @@
 package com.lottery.twocolor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -34,6 +35,8 @@ public class Algorithm {
 	private static final int MIN_NUM = 9;
 	// 红球最大值的最小值
 	private static final int MAX_NUM = 27;
+
+	private static final List<Integer> EXCEPTLIST = Arrays.asList(5);
 
 	private Algorithm() {
 		throw new IllegalStateException("Algorithm class");
@@ -99,12 +102,28 @@ public class Algorithm {
 		Collections.sort(redNumList);
 		Collections.sort(rankList);
 		// 数字符合大小限制，切各自组合的和也符合
-		if (!checkSort(redNumList) || !checkMinMax(redNumList) || checkLastRedNum(redNumList, recordList) || !checkSumList(danNumList, tuoNumList, redNumLastList, redNumList))
+		if (checkLower(redNumList) || checkConstains(redNumList) || !checkSort(redNumList) || !checkMinMax(redNumList) || checkLastRedNum(redNumList, recordList)
+				|| !checkSumList(danNumList, tuoNumList, redNumLastList, redNumList))
 			return getDanTuoRedList(recordList, choiceResult, tuoNum);
 		// 校验是否满足情况
 		choiceResult.setDanNumList(danNumList);
 		choiceResult.setTuoNumList(tuoNumList);
 		return choiceResult;
+	}
+
+	// 只允许有1或2个小于10的
+	private static boolean checkLower(List<Integer> redNumList) {
+		Integer thirdNum = redNumList.get(2);
+		return thirdNum < 10;
+	}
+
+	// 是否包含不能包含的数字
+	private static boolean checkConstains(List<Integer> redNumList) {
+		for (Integer num : redNumList) {
+			if (EXCEPTLIST.contains(num))
+				return true;
+		}
+		return false;
 	}
 
 	// 校验如果最后一个红球号码，和最新一期的红球号码相同，则重新选择

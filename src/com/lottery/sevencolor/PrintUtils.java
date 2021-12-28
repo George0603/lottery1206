@@ -18,13 +18,32 @@ public class PrintUtils {
 	public static void pringDantuo() {
 		ChoiceDanTuoResult r1 = Algorithm.danTuoWay7();
 		ChoiceDanTuoResult r2 = Algorithm.danTuoWay7();
-		if (isContainsSameNum(r1, r2)) {
+		if (isContainsSameNum(r1, r2) || checkSortNum(r1, r2)) {
 			RESULT_INFO_LIST = new ArrayList<>();
 			pringDantuo();
 		} else {
 			RESULT_INFO_LIST.add(r1.toPrintString());
 			RESULT_INFO_LIST.add(r2.toPrintString());
 		}
+	}
+
+	public static boolean checkSortNum(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
+		List<Integer> rlist1 = getListByResult(r1);
+		List<Integer> rlist2 = getListByResult(r2);
+		int sortNum = 0;
+		for (int i = 1; i < rlist1.size(); i++) {
+			int last = rlist1.get(i - 1);
+			int now = rlist1.get(i);
+			if (now - last == 1)
+				sortNum++;
+		}
+		for (int i = 1; i < rlist2.size(); i++) {
+			int last = rlist2.get(i - 1);
+			int now = rlist2.get(i);
+			if (now - last == 1)
+				sortNum++;
+		}
+		return sortNum > 1;
 	}
 
 	public static boolean isContainsSameNum(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {

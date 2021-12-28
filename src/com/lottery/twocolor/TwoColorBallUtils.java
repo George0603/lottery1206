@@ -1,6 +1,7 @@
 package com.lottery.twocolor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -11,6 +12,8 @@ import com.lottery.utils.NumLastAppear;
 public class TwoColorBallUtils {
 
 	public static List<String> RESULTINFOLIST = new ArrayList<>();
+
+	public static final boolean CONTAINSORDER = false;
 
 	private TwoColorBallUtils() {
 		throw new IllegalStateException("TwoColorBallUtils class");
@@ -146,14 +149,52 @@ public class TwoColorBallUtils {
 	// 11.21之前购买
 	public static void wayBefore1121() {
 		// 胆拖方式,3个拖码,蓝球有1-5选3个
-		ChoiceDanTuoResult r1 = printDanTuoResult(3, true, 4);
+		ChoiceDanTuoResult r1 = printDanTuoResult(3, false, 4);
 		// 胆拖方式,3个拖码,蓝球有11-15选3个
-		ChoiceDanTuoResult r2 = printDanTuoResult(3, false, 4);
-		if (isContainsSameNum(r1, r2)) {
+		ChoiceDanTuoResult r2 = printDanTuoResult(3, true, 4);
+		if (isContainsSameNum(r1, r2) || checkSortNum(r1, r2) || checkLower(r1, r2)) {
 			RESULTINFOLIST = new ArrayList<>();
 			Algorithm.NORMALINFOLIST = new ArrayList<>();
 			wayBefore1121();
 		}
+	}
+
+	public static boolean checkLower(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
+		List<Integer> rlist1 = getListByResult(r1);
+		List<Integer> rlist2 = getListByResult(r2);
+		Collections.sort(rlist1);
+		Collections.sort(rlist2);
+		int lowerNum = 0;
+		for (Integer n : rlist1) {
+			if (n < 10)
+				lowerNum++;
+		}
+		for (Integer n : rlist2) {
+			if (n < 10)
+				lowerNum++;
+		}
+		return lowerNum != 3 && lowerNum != 4;
+	}
+
+	public static boolean checkSortNum(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
+		List<Integer> rlist1 = getListByResult(r1);
+		List<Integer> rlist2 = getListByResult(r2);
+		Collections.sort(rlist1);
+		Collections.sort(rlist2);
+		int sortNum = 0;
+		for (int i = 1; i < rlist1.size(); i++) {
+			int last = rlist1.get(i - 1);
+			int now = rlist1.get(i);
+			if (now - last == 1)
+				sortNum++;
+		}
+		for (int i = 1; i < rlist2.size(); i++) {
+			int last = rlist2.get(i - 1);
+			int now = rlist2.get(i);
+			if (now - last == 1)
+				sortNum++;
+		}
+		return CONTAINSORDER ? sortNum > 1 : sortNum > 0;
 	}
 
 	public static boolean isContainsSameNum(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
