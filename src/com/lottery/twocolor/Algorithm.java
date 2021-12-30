@@ -36,7 +36,7 @@ public class Algorithm {
 	// 红球最大值的最小值
 	private static final int MAX_NUM = 27;
 
-	private static final List<Integer> EXCEPTLIST = Arrays.asList(5);
+	private static final List<Integer> EXCEPTLIST = Arrays.asList(5, 10, 32);
 
 	private Algorithm() {
 		throw new IllegalStateException("Algorithm class");
@@ -102,13 +102,26 @@ public class Algorithm {
 		Collections.sort(redNumList);
 		Collections.sort(rankList);
 		// 数字符合大小限制，切各自组合的和也符合
-		if (checkLower(redNumList) || checkConstains(redNumList) || !checkSort(redNumList) || !checkMinMax(redNumList) || checkLastRedNum(redNumList, recordList)
+		if (checkEvenNum(redNumList) || checkLower(redNumList) || checkConstains(redNumList) || !checkSort(redNumList) || !checkMinMax(redNumList) || checkLastRedNum(redNumList, recordList)
 				|| !checkSumList(danNumList, tuoNumList, redNumLastList, redNumList))
 			return getDanTuoRedList(recordList, choiceResult, tuoNum);
 		// 校验是否满足情况
 		choiceResult.setDanNumList(danNumList);
 		choiceResult.setTuoNumList(tuoNumList);
 		return choiceResult;
+	}
+
+	// 判断偶数个数
+	private static boolean checkEvenNum(List<Integer> redNumList) {
+		int evenNum = 0;
+		int oddNum = 0;
+		for (Integer n : redNumList) {
+			if (n % 2 == 0)
+				evenNum++;
+			else
+				oddNum++;
+		}
+		return evenNum < 2 || oddNum < 2;
 	}
 
 	// 只允许有1或2个小于10的
