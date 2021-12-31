@@ -36,7 +36,7 @@ public class Algorithm {
 	// 红球最大值的最小值
 	private static final int MAX_NUM = 27;
 
-	private static final List<Integer> EXCEPTLIST = Arrays.asList(5, 10, 32);
+	private static final List<Integer> EXCEPTLIST = Arrays.asList(9, 26);
 
 	private Algorithm() {
 		throw new IllegalStateException("Algorithm class");
