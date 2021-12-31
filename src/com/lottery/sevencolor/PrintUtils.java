@@ -1,6 +1,7 @@
 package com.lottery.sevencolor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -18,7 +19,11 @@ public class PrintUtils {
 	public static void pringDantuo() {
 		ChoiceDanTuoResult r1 = Algorithm.danTuoWay7();
 		ChoiceDanTuoResult r2 = Algorithm.danTuoWay7();
-		if (isContainsSameNum(r1, r2) || checkSortNum(r1, r2)) {
+		List<Integer> rlist1 = getListByResult(r1);
+		List<Integer> rlist2 = getListByResult(r2);
+		Collections.sort(rlist1);
+		Collections.sort(rlist2);
+		if (isContainsSameNum(rlist1, rlist2) || checkSortNum(rlist1, rlist2)) {
 			RESULT_INFO_LIST = new ArrayList<>();
 			pringDantuo();
 		} else {
@@ -27,9 +32,19 @@ public class PrintUtils {
 		}
 	}
 
-	public static boolean checkSortNum(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
-		List<Integer> rlist1 = getListByResult(r1);
-		List<Integer> rlist2 = getListByResult(r2);
+	public static boolean checkMinNum(List<Integer> rlist1, List<Integer> rlist2) {
+		rlist2.addAll(rlist1);
+		Collections.sort(rlist2);
+		int sortNum = 0;
+		for (int i = 1; i < rlist2.size(); i++) {
+			int now = rlist2.get(i);
+			if (now < Algorithm.MID_SUM)
+				sortNum++;
+		}
+		return sortNum != 1;
+	}
+
+	public static boolean checkSortNum(List<Integer> rlist1, List<Integer> rlist2) {
 		int sortNum = 0;
 		for (int i = 1; i < rlist1.size(); i++) {
 			int last = rlist1.get(i - 1);
@@ -46,9 +61,7 @@ public class PrintUtils {
 		return sortNum > 1;
 	}
 
-	public static boolean isContainsSameNum(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
-		List<Integer> rlist1 = getListByResult(r1);
-		List<Integer> rlist2 = getListByResult(r2);
+	public static boolean isContainsSameNum(List<Integer> rlist1, List<Integer> rlist2) {
 		for (Integer num : rlist1) {
 			if (rlist2.contains(num))
 				return true;

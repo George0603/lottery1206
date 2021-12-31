@@ -17,15 +17,17 @@ public class Algorithm {
 
 	public static final int TOTAL_NUM = 30;
 
-	private static final int MID_SUM = 200;
+	public static final int MID_SUM = 200;
 
-	private static final int MIN_SUM = 179;
+	public static final int MIN_SUM = 179;
 	// 红球允许的最小值
-	private static final int MIN_NUM = 8;
+	public static final int MIN_NUM = 8;
 	// 红球最大值的最小值
-	private static final int MAX_NUM = 25;
+	public static final int MAX_NUM = 25;
 
-	private static final List<Integer> EXCEPTLIST = Arrays.asList(3, 25);
+	public static final int SUM_DIFF = 30;
+
+	public static final List<Integer> EXCEPTLIST = Arrays.asList(6, 27, 30);
 
 	private Algorithm() {
 		throw new IllegalStateException("Algorithm class");
@@ -181,11 +183,15 @@ public class Algorithm {
 				return false;
 		}
 		// 必须有一个小于200
-		if (sumList.get(0) >= MID_SUM)
-			return false;
+		// if (sumList.get(0) >= MID_SUM)
+		// return false;
 		// 后面都是大于200的
 		if (sumList.get(1) <= MID_SUM)
 			return false;
+		// 最小和最大的和要相差20以上
+		if (sumList.get(sumList.size() - 1) - sumList.get(0) <= SUM_DIFF)
+			return false;
+
 		PrintUtils.RESULT_INFO_LIST.add("胆拖所有组合双和为【" + StringUtils.join(sumList, ",") + "】，红色号码为【" + StringUtils.join(redNumList, ",") + "】。");
 		return true;
 	}
