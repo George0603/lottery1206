@@ -8,11 +8,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.lottery.utils.NumLastAppear;
+import com.lottery.utils.Utils;
 
 public class TwoColorBallUtils {
 
 	public static List<String> RESULTINFOLIST = new ArrayList<>();
 
+	// 是否允许包含顺序出现的数字
 	public static final boolean CONTAINSORDER = false;
 
 	private TwoColorBallUtils() {
@@ -152,18 +154,53 @@ public class TwoColorBallUtils {
 		ChoiceDanTuoResult r1 = printDanTuoResult(3, false, 4);
 		// 胆拖方式,3个拖码,蓝球有11-15选3个
 		ChoiceDanTuoResult r2 = printDanTuoResult(3, true, 4);
-		if (isContainsSameNum(r1, r2) || checkSortNum(r1, r2) || checkLower(r1, r2)) {
+
+		if (!passAllCheck(r1, r2)) {
 			RESULTINFOLIST = new ArrayList<>();
 			Algorithm.NORMALINFOLIST = new ArrayList<>();
 			wayBefore1121();
 		}
 	}
 
-	public static boolean checkLower(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
+	public static boolean passAllCheck(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
 		List<Integer> rlist1 = getListByResult(r1);
 		List<Integer> rlist2 = getListByResult(r2);
 		Collections.sort(rlist1);
 		Collections.sort(rlist2);
+		// 判断是否包含相同的数字
+		if (isContainsSameNum(rlist1, rlist2))
+			return false;
+		// 不能包含超过1次的顺序数字
+		if (checkSortNum(rlist1, rlist2))
+			return false;
+		// 只允许包含3个或4个小于10个数字
+		if (checkLower(rlist1, rlist2))
+			return false;
+		// 只允许出现1个小于200的数字
+		if (checkLowerSum(r1, r2))
+			return false;
+		return true;
+	}
+
+	public static boolean checkLowerSum(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
+		// 获取红球统计结果
+		HistoryRecord[] recordList = HistoryRecord.values();
+		List<NumLastAppear> redNumLastList = ChoiceNum.getRedNumDetail(recordList);
+		List<Integer> sumList1 = Utils.getSumList(r1.getDanNumList(), r1.getTuoNumList(), redNumLastList, 1);
+		List<Integer> sumList2 = Utils.getSumList(r2.getDanNumList(), r2.getTuoNumList(), redNumLastList, 1);
+		Collections.sort(sumList1);
+		Collections.sort(sumList2);
+		// 只允许有1个小于Algorithm.MID_SUM的
+		int lowerNum = 0;
+		if (sumList1.get(0) < Algorithm.MID_SUM)
+			lowerNum++;
+		if (sumList2.get(0) < Algorithm.MID_SUM)
+			lowerNum++;
+		return lowerNum != 1;
+	}
+
+	// 只允许包含3个或4个小于10个数字
+	public static boolean checkLower(List<Integer> rlist1, List<Integer> rlist2) {
 		int lowerNum = 0;
 		for (Integer n : rlist1) {
 			if (n < 10)
@@ -176,11 +213,8 @@ public class TwoColorBallUtils {
 		return lowerNum != 3 && lowerNum != 4;
 	}
 
-	public static boolean checkSortNum(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
-		List<Integer> rlist1 = getListByResult(r1);
-		List<Integer> rlist2 = getListByResult(r2);
-		Collections.sort(rlist1);
-		Collections.sort(rlist2);
+	// 不能包含超过1次的顺序数字
+	public static boolean checkSortNum(List<Integer> rlist1, List<Integer> rlist2) {
 		int sortNum = 0;
 		for (int i = 1; i < rlist1.size(); i++) {
 			int last = rlist1.get(i - 1);
@@ -197,9 +231,8 @@ public class TwoColorBallUtils {
 		return CONTAINSORDER ? sortNum > 1 : sortNum > 0;
 	}
 
-	public static boolean isContainsSameNum(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
-		List<Integer> rlist1 = getListByResult(r1);
-		List<Integer> rlist2 = getListByResult(r2);
+	// 判断是否包含相同的数字
+	public static boolean isContainsSameNum(List<Integer> rlist1, List<Integer> rlist2) {
 		for (Integer num : rlist1) {
 			if (rlist2.contains(num))
 				return true;

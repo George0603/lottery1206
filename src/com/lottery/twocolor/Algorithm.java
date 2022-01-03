@@ -24,19 +24,19 @@ public class Algorithm {
 
 	// private static Logger logger = Logger.getLogger(Algorithm.class)
 
-	private static final int MIN_SUM = 180;
+	public static final int MIN_SUM = 180;
 
-	private static final int MID_SUM = 200;
+	public static final int MID_SUM = 200;
 
-	private static final int MAX_SUM = 260;
+	public static final int MAX_SUM = 260;
 
-	private static final int SUM_DIFF = 25;
+	public static final int SUM_DIFF = 25;
 	// 红球允许的最小值
-	private static final int MIN_NUM = 9;
+	public static final int MIN_NUM = 9;
 	// 红球最大值的最小值
-	private static final int MAX_NUM = 27;
+	public static final int MAX_NUM = 27;
 
-	private static final List<Integer> EXCEPTLIST = Arrays.asList(9, 26);
+	public static final List<Integer> EXCEPTLIST = Arrays.asList(6, 20, 21);
 
 	private Algorithm() {
 		throw new IllegalStateException("Algorithm class");
@@ -102,13 +102,34 @@ public class Algorithm {
 		Collections.sort(redNumList);
 		Collections.sort(rankList);
 		// 数字符合大小限制，切各自组合的和也符合
-		if (checkEvenNum(redNumList) || checkLower(redNumList) || checkConstains(redNumList) || !checkSort(redNumList) || !checkMinMax(redNumList) || checkLastRedNum(redNumList, recordList)
-				|| !checkSumList(danNumList, tuoNumList, redNumLastList, redNumList))
+		if (!passAllCheck(redNumList, recordList) || !checkSumList(danNumList, tuoNumList, redNumLastList, redNumList))
 			return getDanTuoRedList(recordList, choiceResult, tuoNum);
 		// 校验是否满足情况
 		choiceResult.setDanNumList(danNumList);
 		choiceResult.setTuoNumList(tuoNumList);
 		return choiceResult;
+	}
+
+	// 能否通过所有校验
+	private static boolean passAllCheck(List<Integer> redNumList, HistoryRecord[] recordList) {
+		// 判断奇数偶数个数，奇数和偶数的个数都要大于1
+		if (checkEvenNum(redNumList))
+			return false;
+		// 只允许有1或2个小于10的，否则不通过
+		if (checkLower(redNumList))
+			return false;
+		// 是否包含不能包含的数字，包含则不通过
+		if (checkConstains(redNumList))
+			return false;
+		// 是否同时存在两个连续数字
+		if (!checkSort(redNumList))
+			return false;
+		// 校验最大值和最小值，是否在范围内
+		if (!checkMinMax(redNumList))
+			return false;
+		if (checkLastRedNum(redNumList, recordList))
+			return false;
+		return true;
 	}
 
 	// 判断偶数个数
@@ -153,14 +174,16 @@ public class Algorithm {
 
 	public static boolean checkSumList(List<Integer> danNumList, List<Integer> tuoNumList, List<NumLastAppear> redNumLastList, List<Integer> redNumList) {
 		List<Integer> sumList = Utils.getSumList(danNumList, tuoNumList, redNumLastList, 1);
+		Integer minNum = sumList.get(0);
+		Integer maxNum = sumList.get(sumList.size() - 1);
 		// 最小的，要大于MIN_SUM
-		if (sumList.get(0) <= MIN_SUM)
+		if (minNum <= MIN_SUM)
 			return false;
 		// 最大的不能大于MAX_SUM
-		if (sumList.get(sumList.size() - 1) > MAX_SUM)
+		if (maxNum > MAX_SUM)
 			return false;
 		// 要保证存在大于MID_SUM的
-		if (sumList.get(0) >= MID_SUM || sumList.get(1) < MID_SUM)
+		if (sumList.get(1) < MID_SUM)
 			return false;
 		// 最小和最大的和要相差20以上
 		if (sumList.get(sumList.size() - 1) - sumList.get(0) <= SUM_DIFF)
@@ -299,6 +322,7 @@ public class Algorithm {
 		return redNumList;
 	}
 
+	// 是否同时存在两个连续数字
 	public static boolean checkSort(List<Integer> redNumList) {
 		int sortNum = 0;
 		for (int i = 1; i < redNumList.size(); i++) {
