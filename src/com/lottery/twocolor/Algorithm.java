@@ -36,7 +36,7 @@ public class Algorithm {
 	// 红球最大值的最小值
 	public static final int MAX_NUM = 27;
 
-	public static final List<Integer> EXCEPTLIST = Arrays.asList(3, 31);
+	public static final List<Integer> EXCEPTLIST = Arrays.asList(1, 28, 31);
 
 	private Algorithm() {
 		throw new IllegalStateException("Algorithm class");
@@ -49,7 +49,7 @@ public class Algorithm {
 	 *            蓝球是否是正序选择
 	 * @return
 	 */
-	public static ChoiceDanTuoResult danTuoWay(HistoryRecord[] recordList, int tuoNum, boolean isAsc, int buleNum) {
+	public static ChoiceDanTuoResult danTuoWay(RankingRecord[] recordList, int tuoNum, boolean isAsc, int buleNum) {
 		ChoiceDanTuoResult choiceResult = new ChoiceDanTuoResult();
 		buleNum = buleNum > 4 ? 4 : buleNum;
 		if (isAsc) {
@@ -65,7 +65,7 @@ public class Algorithm {
 	 * 胆码： 1-4名选1个； 5-10名选1个； 27-33名选1个；6-33里选剩的随机选1个；<br>
 	 * 拖码：11-27名选3个；
 	 */
-	public static ChoiceDanTuoResult getDanTuoRedList(HistoryRecord[] recordList, ChoiceDanTuoResult choiceResult, int tuoNum) {
+	public static ChoiceDanTuoResult getDanTuoRedList(RankingRecord[] recordList, ChoiceDanTuoResult choiceResult, int tuoNum) {
 		List<Integer> redNumList = new ArrayList<>();
 		// 胆码集合
 		List<Integer> danNumList = new ArrayList<>();
@@ -111,7 +111,7 @@ public class Algorithm {
 	}
 
 	// 能否通过所有校验
-	private static boolean passAllCheck(List<Integer> redNumList, HistoryRecord[] recordList) {
+	private static boolean passAllCheck(List<Integer> redNumList, RankingRecord[] recordList) {
 		// 判断奇数偶数个数，奇数和偶数的个数都要大于1
 		if (checkEvenNum(redNumList))
 			return false;
@@ -161,7 +161,7 @@ public class Algorithm {
 	}
 
 	// 校验如果最后一个红球号码，和最新一期的红球号码相同，则重新选择
-	public static boolean checkLastRedNum(List<Integer> redNumList, HistoryRecord[] recordList) {
+	public static boolean checkLastRedNum(List<Integer> redNumList, RankingRecord[] recordList) {
 		// 历史记录最新的
 		String[] redNumStr = recordList[0].getRedNum().split(",");
 		// 获取本次选择号码的最后一个号码
@@ -200,7 +200,7 @@ public class Algorithm {
 	 * @param recordList
 	 *            中奖历史记录
 	 */
-	public static ChoiceMultiResult algorithmDesc(HistoryRecord[] recordList) {
+	public static ChoiceMultiResult algorithmDesc(RankingRecord[] recordList) {
 		ChoiceMultiResult choiceResult = new ChoiceMultiResult();
 		choiceResult.setBlueNum(getTwoBlueNum(recordList, 11, 15, 3));
 		choiceResult.setRedNumList(getRedNumList(recordList));
@@ -214,9 +214,9 @@ public class Algorithm {
 	 * @param recordList
 	 *            中奖历史记录
 	 */
-	public static ChoiceMultiResult algorithmAsc(HistoryRecord[] recordList) {
+	public static ChoiceMultiResult algorithmAsc(RankingRecord[] recordList) {
 		ChoiceMultiResult choiceResult = new ChoiceMultiResult();
-		choiceResult.setBlueNum(getTwoBlueNum(recordList, 0, 5, 3));
+		choiceResult.setBlueNum(getTwoBlueNum(recordList, 1, 5, 4));
 		choiceResult.setRedNumList(getRedNumList(recordList));
 		return choiceResult;
 	}
@@ -228,7 +228,7 @@ public class Algorithm {
 	 * @param recordList
 	 *            中奖历史记录
 	 */
-	public static ChoiceMultiResult algorithm1014(HistoryRecord[] recordList) {
+	public static ChoiceMultiResult algorithm1014(RankingRecord[] recordList) {
 		ChoiceMultiResult choiceResult = new ChoiceMultiResult();
 		choiceResult.setBlueNum(getTwoBlueNum(recordList, 0, 5, 2));
 		choiceResult.setRedNumList(get7RedNumList(recordList));
@@ -242,7 +242,7 @@ public class Algorithm {
 	 * @param recordList
 	 *            中奖历史记录
 	 */
-	public static ChoiceResult algorithm1213(HistoryRecord[] recordList) {
+	public static ChoiceResult algorithm1213(RankingRecord[] recordList) {
 		ChoiceResult choiceResult = new ChoiceResult();
 		// 获取蓝球统计结果
 		// 选中蓝球中出现次数最多的那个号码
@@ -254,7 +254,7 @@ public class Algorithm {
 	/**
 	 * 红球： 从红球排名结果中选取结果： 1-4名选1个； 5-10名选1个； 11-27名选2个； 27-33名选1个； 6-33里选剩的随机选1个；
 	 */
-	public static List<Integer> get7RedNumList(HistoryRecord[] recordList) {
+	public static List<Integer> get7RedNumList(RankingRecord[] recordList) {
 		List<Integer> redNumList = new ArrayList<>();
 		// 获取红球统计结果
 		List<NumLastAppear> redNumLastList = ChoiceNum.getRedNumDetail(recordList);
@@ -297,7 +297,7 @@ public class Algorithm {
 	/**
 	 * 红球： 从红球排名结果中选取结果： 1-4名选1个； 5-10名选1个； 11-27名选2个； 27-33名选1个； 6-33里选剩的随机选1个；
 	 */
-	public static List<Integer> getRedNumList(HistoryRecord[] recordList) {
+	public static List<Integer> getRedNumList(RankingRecord[] recordList) {
 		List<Integer> redNumList = new ArrayList<>();
 		// 获取红球统计结果
 		List<NumLastAppear> redNumLastList = ChoiceNum.getRedNumDetail(recordList);
@@ -316,8 +316,7 @@ public class Algorithm {
 			redNumList.add(redNumLastList.get(i).getNum());
 		}
 		Collections.sort(redNumList);
-		boolean checkResult = checkOtherCondition(redNumList, redIndex, redNumLastList);
-		if (checkLastRedNum(redNumList, recordList) || !checkResult)
+		if (!passAllCheck(redNumList, recordList))
 			return getRedNumList(recordList);
 		return redNumList;
 	}
@@ -373,7 +372,7 @@ public class Algorithm {
 	/**
 	 * 获取蓝球算法：从排名前4中选两个
 	 */
-	public static List<Integer> getTwoBlueNum(HistoryRecord[] recordList, int start, int end, int size) {
+	public static List<Integer> getTwoBlueNum(RankingRecord[] recordList, int start, int end, int size) {
 		List<NumLastAppear> blueNumLastList = ChoiceNum.getBlueNumDetail(recordList);
 		// 记录已经选中序号
 		List<Integer> blueIndex = new ArrayList<>();
@@ -389,7 +388,7 @@ public class Algorithm {
 	/**
 	 * 获取蓝球算法
 	 */
-	public static int getBlueNum(HistoryRecord[] recordList) {
+	public static int getBlueNum(RankingRecord[] recordList) {
 		// 获取蓝球统计结果
 		List<NumLastAppear> blueNumLastList = ChoiceNum.getBlueNumDetail(recordList);
 		// 直接获取最久未出现的号码

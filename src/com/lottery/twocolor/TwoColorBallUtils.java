@@ -23,10 +23,11 @@ public class TwoColorBallUtils {
 
 	private static Logger logger = Logger.getLogger(TwoColorBallUtils.class);
 
-	// private static org.slf4j.Logger logRed = LoggerFactory.getLogger(TwoColorBallUtils.class)
-
+	/**
+	 * 胆拖方式买红球
+	 */
 	public static ChoiceDanTuoResult printDanTuoResult(int tuoNum, boolean isAsc, int buleNum) {
-		HistoryRecord[] hs = HistoryRecord.values();
+		RankingRecord[] hs = RankingRecord.values();
 		ChoiceDanTuoResult result = Algorithm.danTuoWay(hs, tuoNum, isAsc, buleNum);
 		// logRed.info()
 		RESULTINFOLIST.add("胆拖玩法，" + result.toPrintString());
@@ -40,7 +41,7 @@ public class TwoColorBallUtils {
 		/**
 		 * 打印购买号码预测结果
 		 */
-		HistoryRecord[] hs = HistoryRecord.values();
+		RankingRecord[] hs = RankingRecord.values();
 		ChoiceMultiResult desc = Algorithm.algorithmDesc(hs);
 		ChoiceMultiResult asc = Algorithm.algorithmAsc(hs);
 		RESULTINFOLIST.add(desc.toPrintString());
@@ -54,7 +55,7 @@ public class TwoColorBallUtils {
 		/**
 		 * 打印购买号码预测结果
 		 */
-		HistoryRecord[] hs = HistoryRecord.values();
+		RankingRecord[] hs = RankingRecord.values();
 		ChoiceMultiResult desc = Algorithm.algorithmDesc(hs);
 		RESULTINFOLIST.add("普通玩法，" + desc.toPrintString());
 	}
@@ -66,7 +67,7 @@ public class TwoColorBallUtils {
 		/**
 		 * 打印购买号码预测结果
 		 */
-		HistoryRecord[] hs = HistoryRecord.values();
+		RankingRecord[] hs = RankingRecord.values();
 		ChoiceResult result = Algorithm.algorithm1213(hs);
 		logger.info(result.toPrintString());
 	}
@@ -75,7 +76,7 @@ public class TwoColorBallUtils {
 	 * 打印红球、蓝球各个号码未出现的次数及排名
 	 */
 	public static void printreNotPresentTimes() {
-		HistoryRecord[] hs = HistoryRecord.values();
+		RankingRecord[] hs = RankingRecord.values();
 		/**
 		 * 打印蓝、红统计结果
 		 */
@@ -92,7 +93,7 @@ public class TwoColorBallUtils {
 	 * 打印本次各个中奖号码的排名情况
 	 */
 	public static void printRankingDetail() {
-		HistoryRecord[] hs = HistoryRecord.values();
+		RankingRecord[] hs = RankingRecord.values();
 		/** 中奖蓝球号码在上一期中的排名和未出现次数 **/
 		NumLastAppear blueAppear = ChoiceNum.blueBallDistributionMap(hs);
 		// logger.info("蓝球中奖号码:" + blueAppear.getNum() + ",未出现次数:" + blueAppear.getNotAppearTimes() + ",排名:" + blueAppear.getRanking())
@@ -162,6 +163,37 @@ public class TwoColorBallUtils {
 		}
 	}
 
+	public static void wayAfter1121() {
+		// 胆拖方式,3个拖码,蓝球有1-5选3个
+		ChoiceDanTuoResult r1 = printDanTuoResult(3, false, 4);
+		// 胆拖方式,3个拖码,蓝球有11-15选3个
+		ChoiceMultiResult r2 = Algorithm.algorithmAsc(RankingRecord.values());
+		if (!passAllCheck(r1, r2)) {
+			RESULTINFOLIST = new ArrayList<>();
+			Algorithm.NORMALINFOLIST = new ArrayList<>();
+			wayAfter1121();
+		} else {
+			RESULTINFOLIST.add(r2.toPrintString());
+		}
+	}
+
+	public static boolean passAllCheck(ChoiceDanTuoResult r1, ChoiceMultiResult r2) {
+		List<Integer> rlist1 = getListByResult(r1);
+		List<Integer> rlist2 = r2.getRedNumList();
+		Collections.sort(rlist1);
+		Collections.sort(rlist2);
+		// 判断是否包含相同的数字
+		if (isContainsSameNum(rlist1, rlist2))
+			return false;
+		// 不能包含超过1次的顺序数字
+		if (checkSortNum(rlist1, rlist2))
+			return false;
+		// 只允许包含3个或4个小于10个数字
+		if (checkLower(rlist1, rlist2))
+			return false;
+		return true;
+	}
+
 	public static boolean passAllCheck(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
 		List<Integer> rlist1 = getListByResult(r1);
 		List<Integer> rlist2 = getListByResult(r2);
@@ -184,7 +216,7 @@ public class TwoColorBallUtils {
 
 	public static boolean checkLowerSum(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
 		// 获取红球统计结果
-		HistoryRecord[] recordList = HistoryRecord.values();
+		RankingRecord[] recordList = RankingRecord.values();
 		List<NumLastAppear> redNumLastList = ChoiceNum.getRedNumDetail(recordList);
 		List<Integer> sumList1 = Utils.getSumList(r1.getDanNumList(), r1.getTuoNumList(), redNumLastList, 1);
 		List<Integer> sumList2 = Utils.getSumList(r2.getDanNumList(), r2.getTuoNumList(), redNumLastList, 1);

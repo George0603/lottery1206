@@ -13,7 +13,7 @@ public class RunMain {
 	private static Logger logger = Logger.getLogger(RunMain.class);
 
 	public static void main(String[] args) {
-		sevenColor();
+		twoColor();
 		printInfo();
 	}
 
@@ -21,14 +21,15 @@ public class RunMain {
 		// 打印未出现情况
 		// PrintUtils.printList();
 		// 打印排名情况
-		PrintUtils.printRanking();
+		// PrintUtils.printRanking();
 		// PrintUtils.printResult7();
-		// PrintUtils.pringDantuo();
+		PrintUtils.pringDantuo();
 	}
 
 	public static void twoColor() {
+		TwoColorBallUtils.wayAfter1121();
 		// TwoColorBallUtils.wayBefore1121();
-		TwoColorBallUtils.printreNotPresentTimes();
+		// TwoColorBallUtils.printreNotPresentTimes();
 		// TwoColorBallUtils.printRankingDetail();
 	}
 
