@@ -36,7 +36,7 @@ public class Algorithm {
 	// 红球最大值的最小值
 	public static final int MAX_NUM = 27;
 
-	public static final List<Integer> EXCEPTLIST = Arrays.asList(2, 20, 21);
+	public static final List<Integer> EXCEPTLIST = Arrays.asList(4, 28);
 
 	private Algorithm() {
 		throw new IllegalStateException("Algorithm class");
@@ -102,7 +102,7 @@ public class Algorithm {
 		Collections.sort(redNumList);
 		Collections.sort(rankList);
 		// 数字符合大小限制，切各自组合的和也符合
-		if (!passAllCheck(redNumList, recordList) || !checkSumList(danNumList, tuoNumList, redNumLastList, redNumList))
+		if (!passAllCheck(redNumList, recordList, true) || !checkSumList(danNumList, tuoNumList, redNumLastList, redNumList))
 			return getDanTuoRedList(recordList, choiceResult, tuoNum);
 		// 校验是否满足情况
 		choiceResult.setDanNumList(danNumList);
@@ -111,7 +111,7 @@ public class Algorithm {
 	}
 
 	// 能否通过所有校验
-	private static boolean passAllCheck(List<Integer> redNumList, RankingRecord[] recordList) {
+	private static boolean passAllCheck(List<Integer> redNumList, RankingRecord[] recordList, boolean isDantuo) {
 		// 判断奇数偶数个数，奇数和偶数的个数都要大于1
 		if (checkEvenNum(redNumList))
 			return false;
@@ -129,7 +129,27 @@ public class Algorithm {
 			return false;
 		if (checkLastRedNum(redNumList, recordList))
 			return false;
+		if (!isDantuo && checkSum(redNumList))
+			return false;
 		return true;
+	}
+
+	// 红球和排名之和要在范围内
+	public static boolean checkSum(List<Integer> redNumList) {
+		List<NumLastAppear> numLastList = ChoiceNum.getRedNumDetail(RankingRecord.values());
+		List<Integer> rankList = new ArrayList<>();
+		int allSum = 0;
+		for (Integer redNum : redNumList) {
+			Integer rank = Utils.getRankingByNum(numLastList, redNum);
+			allSum += (redNum + rank);
+			rankList.add(rank);
+		}
+		boolean result = allSum > MAX_SUM || allSum < MIN_SUM;
+		if (!result) {
+			Collections.sort(rankList);
+			NORMALINFOLIST.add("普通玩法红球：总和=" + allSum + ",红球【" + StringUtils.join(redNumList.toArray(), ",") + "】,排名【" + StringUtils.join(rankList.toArray(), ",") + "】");
+		}
+		return result;
 	}
 
 	// 判断偶数个数
@@ -316,7 +336,7 @@ public class Algorithm {
 			redNumList.add(redNumLastList.get(i).getNum());
 		}
 		Collections.sort(redNumList);
-		if (!passAllCheck(redNumList, recordList))
+		if (!passAllCheck(redNumList, recordList, false))
 			return getRedNumList(recordList);
 		return redNumList;
 	}

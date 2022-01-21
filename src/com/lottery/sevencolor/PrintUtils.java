@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import com.lottery.utils.NumLastAppear;
+import com.lottery.utils.Utils;
 
 public class PrintUtils {
 
@@ -23,13 +24,30 @@ public class PrintUtils {
 		List<Integer> rlist2 = getListByResult(r2);
 		Collections.sort(rlist1);
 		Collections.sort(rlist2);
-		if (isContainsSameNum(rlist1, rlist2) || checkSortNum(rlist1, rlist2)) {
+		if (isContainsSameNum(rlist1, rlist2) || checkSortNum(rlist1, rlist2) || checkSum(r1, r2)) {
 			RESULT_INFO_LIST = new ArrayList<>();
 			pringDantuo();
 		} else {
 			RESULT_INFO_LIST.add(r1.toPrintString());
 			RESULT_INFO_LIST.add(r2.toPrintString());
 		}
+	}
+
+	public static boolean checkSum(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
+		// 获取排名结果
+		List<NumLastAppear> numLastList = Algorithm.getNumDetail(HistoryRecord.values());
+		List<Integer> sumList1 = Utils.getSumList(r1.getDanNumList(), r1.getTuoNumList(), numLastList, 2);
+		List<Integer> sumList2 = Utils.getSumList(r2.getDanNumList(), r2.getTuoNumList(), numLastList, 2);
+		int allNum = 0;
+		for (Integer sum : sumList1) {
+			if (sum < Algorithm.MID_SUM)
+				allNum++;
+		}
+		for (Integer sum : sumList2) {
+			if (sum < Algorithm.MID_SUM)
+				allNum++;
+		}
+		return allNum != 1;
 	}
 
 	public static boolean checkMinNum(List<Integer> rlist1, List<Integer> rlist2) {

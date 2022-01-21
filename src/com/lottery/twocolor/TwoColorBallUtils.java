@@ -191,7 +191,50 @@ public class TwoColorBallUtils {
 		// 只允许包含3个或4个小于10个数字
 		if (checkLower(rlist1, rlist2))
 			return false;
+		if (checkSum(r1, r2))
+			return false;
 		return true;
+	}
+
+	public static boolean checkSum(ChoiceDanTuoResult r1, ChoiceMultiResult r2) {
+		// 获取排名结果
+		List<NumLastAppear> numLastList = ChoiceNum.getRedNumDetail(RankingRecord.values());
+		List<Integer> sumList1 = Utils.getSumList(r1.getDanNumList(), r1.getTuoNumList(), numLastList, 1);
+		int sum2 = getMultiSum(r2, numLastList);
+		int allNum = 0;
+		for (Integer sum : sumList1) {
+			if (sum < Algorithm.MID_SUM)
+				allNum++;
+		}
+		if (sum2 < Algorithm.MID_SUM)
+			allNum++;
+		return allNum != 1;
+	}
+
+	public static int getMultiSum(ChoiceMultiResult r, List<NumLastAppear> numLastList) {
+		int allSum = 0;
+		for (Integer redNum : r.getRedNumList()) {
+			Integer rank = Utils.getRankingByNum(numLastList, redNum);
+			allSum += (redNum + rank);
+		}
+		return allSum;
+	}
+
+	public static boolean checkSum(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
+		// 获取排名结果
+		List<NumLastAppear> numLastList = ChoiceNum.getRedNumDetail(RankingRecord.values());
+		List<Integer> sumList1 = Utils.getSumList(r1.getDanNumList(), r1.getTuoNumList(), numLastList, 1);
+		List<Integer> sumList2 = Utils.getSumList(r2.getDanNumList(), r2.getTuoNumList(), numLastList, 1);
+		int allNum = 0;
+		for (Integer sum : sumList1) {
+			if (sum < Algorithm.MID_SUM)
+				allNum++;
+		}
+		for (Integer sum : sumList2) {
+			if (sum < Algorithm.MID_SUM)
+				allNum++;
+		}
+		return allNum != 1;
 	}
 
 	public static boolean passAllCheck(ChoiceDanTuoResult r1, ChoiceDanTuoResult r2) {
