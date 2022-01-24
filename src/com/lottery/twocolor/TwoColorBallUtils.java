@@ -164,10 +164,10 @@ public class TwoColorBallUtils {
 	}
 
 	public static void wayAfter1121() {
+		// 普通方式，6个红球，4个蓝球
+		ChoiceMultiResult r2 = Algorithm.algorithmAsc(RankingRecord.values());
 		// 胆拖方式,3个拖码,蓝球有1-5选3个
 		ChoiceDanTuoResult r1 = printDanTuoResult(3, false, 4);
-		// 胆拖方式,3个拖码,蓝球有11-15选3个
-		ChoiceMultiResult r2 = Algorithm.algorithmAsc(RankingRecord.values());
 		if (!passAllCheck(r1, r2)) {
 			RESULTINFOLIST = new ArrayList<>();
 			Algorithm.NORMALINFOLIST = new ArrayList<>();
