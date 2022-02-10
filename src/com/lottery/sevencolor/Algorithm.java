@@ -27,7 +27,7 @@ public class Algorithm {
 
 	public static final int SUM_DIFF = 30;
 
-	public static final List<Integer> EXCEPTLIST = Arrays.asList(2, 6, 29);
+	public static final List<Integer> EXCEPTLIST = Arrays.asList(1, 18, 27);
 
 	private Algorithm() {
 		throw new IllegalStateException("Algorithm class");
