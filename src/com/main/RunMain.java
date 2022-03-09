@@ -23,14 +23,14 @@ public class RunMain {
 		// 打印排名情况
 		// PrintUtils.printRanking();
 		// PrintUtils.printResult7();
-		// PrintUtils.pringDantuo();
+		PrintUtils.pringDantuo();
 	}
 
 	public static void twoColor() {
 		TwoColorBallUtils.wayAfter1121();
 		// TwoColorBallUtils.wayBefore1121();
 		// TwoColorBallUtils.printreNotPresentTimes();
-		TwoColorBallUtils.printRankingDetail();
+		// TwoColorBallUtils.printRankingDetail();
 	}
 
 	// 常规购买
