@@ -36,7 +36,7 @@ public class Algorithm {
 	// 红球最大值的最小值
 	public static final int MAX_NUM = 27;
 
-	public static final List<Integer> EXCEPTLIST = Arrays.asList(5, 30);
+	public static final List<Integer> EXCEPTLIST = Arrays.asList(3);
 
 	private Algorithm() {
 		throw new IllegalStateException("Algorithm class");
@@ -113,7 +113,7 @@ public class Algorithm {
 	// 能否通过所有校验
 	private static boolean passAllCheck(List<Integer> redNumList, RankingRecord[] recordList, boolean isDantuo) {
 		// 判断奇数偶数个数，奇数和偶数的个数都要大于1
-		if (checkEvenNum(redNumList))
+		if (Utils.checkEvenNum(redNumList))
 			return false;
 		// 只允许有1或2个小于10的，否则不通过
 		if (checkLower(redNumList))
@@ -150,19 +150,6 @@ public class Algorithm {
 			NORMALINFOLIST.add("普通玩法红球：总和=" + allSum + ",红球【" + StringUtils.join(redNumList.toArray(), ",") + "】,排名【" + StringUtils.join(rankList.toArray(), ",") + "】");
 		}
 		return result;
-	}
-
-	// 判断偶数个数
-	private static boolean checkEvenNum(List<Integer> redNumList) {
-		int evenNum = 0;
-		int oddNum = 0;
-		for (Integer n : redNumList) {
-			if (n % 2 == 0)
-				evenNum++;
-			else
-				oddNum++;
-		}
-		return evenNum < 2 || oddNum < 2;
 	}
 
 	// 只允许有1或2个小于10的

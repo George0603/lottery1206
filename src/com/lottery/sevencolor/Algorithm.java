@@ -27,7 +27,7 @@ public class Algorithm {
 
 	public static final int SUM_DIFF = 30;
 
-	public static final List<Integer> EXCEPTLIST = Arrays.asList(3, 30);
+	public static final List<Integer> EXCEPTLIST = Arrays.asList(3, 28);
 
 	private Algorithm() {
 		throw new IllegalStateException("Algorithm class");
@@ -87,7 +87,8 @@ public class Algorithm {
 		}
 		Collections.sort(redNumList);
 		Collections.sort(rankList);
-		if (checkConstains(redNumList) || !checkSort(redNumList) || !checkMinMax(redNumList) || checkLastRedNum(redNumList) || !checkSumList(danNumList, tuoNumList, numLastList, redNumList))
+		if (Utils.checkEvenNum(redNumList) || checkConstains(redNumList) || !checkSort(redNumList) || !checkMinMax(redNumList) || checkLastRedNum(redNumList)
+				|| !checkSumList(danNumList, tuoNumList, numLastList, redNumList))
 			return danTuoWay7();
 		// 校验是否满足情况
 		choiceResult.setDanNumList(danNumList);

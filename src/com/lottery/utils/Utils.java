@@ -11,10 +11,22 @@ import org.apache.commons.collections.CollectionUtils;
 
 public class Utils {
 
-	private static final int MIN_SUM = 180;
-
 	private Utils() {
 		throw new IllegalStateException("Utils class");
+	}
+
+	// 判断偶数个数
+	public static boolean checkEvenNum(List<Integer> redNumList) {
+		int evenNum = 0;
+		int oddNum = 0;
+
+		for (Integer n : redNumList) {
+			if (n % 2 == 0)
+				evenNum++;
+			else
+				oddNum++;
+		}
+		return evenNum < 2 || oddNum < 2;
 	}
 
 	/**
