@@ -16,7 +16,7 @@ public class Utils {
 	}
 
 	// 判断偶数个数
-	public static boolean checkEvenNum(List<Integer> redNumList) {
+	public static boolean checkEvenNum(List<Integer> redNumList, int minLimit) {
 		int evenNum = 0;
 		int oddNum = 0;
 
@@ -26,7 +26,7 @@ public class Utils {
 			else
 				oddNum++;
 		}
-		return evenNum < 2 || oddNum < 2;
+		return evenNum < minLimit || oddNum < minLimit;
 	}
 
 	/**
