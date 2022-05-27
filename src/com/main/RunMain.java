@@ -27,10 +27,10 @@ public class RunMain {
 	}
 
 	public static void twoColor() {
-		// TwoColorBallUtils.wayAfter1121();
+		TwoColorBallUtils.wayAfter1121();
 		// TwoColorBallUtils.wayBefore1121();
 		// TwoColorBallUtils.printreNotPresentTimes();
-		TwoColorBallUtils.printRankingDetail();
+		// TwoColorBallUtils.printRankingDetail();
 	}
 
 	// 常规购买
